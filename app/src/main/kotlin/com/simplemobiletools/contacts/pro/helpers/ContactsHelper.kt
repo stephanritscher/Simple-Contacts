@@ -360,10 +360,17 @@ class ContactsHelper(val context: Context) {
         val addresses = SparseArray<ArrayList<Address>>()
         val uri = StructuredPostal.CONTENT_URI
         val projection = arrayOf(
-            Data.RAW_CONTACT_ID,
-            StructuredPostal.FORMATTED_ADDRESS,
-            StructuredPostal.TYPE,
-            StructuredPostal.LABEL
+                Data.RAW_CONTACT_ID,
+                StructuredPostal.FORMATTED_ADDRESS,
+                StructuredPostal.COUNTRY,
+                StructuredPostal.REGION,
+                StructuredPostal.CITY,
+                StructuredPostal.POSTCODE,
+                StructuredPostal.POBOX,
+                StructuredPostal.STREET,
+                StructuredPostal.NEIGHBORHOOD,
+                StructuredPostal.TYPE,
+                StructuredPostal.LABEL
         )
 
         val selection = if (contactId == null) getSourcesSelection() else "${Data.RAW_CONTACT_ID} = ?"
@@ -372,6 +379,13 @@ class ContactsHelper(val context: Context) {
         context.queryCursor(uri, projection, selection, selectionArgs, showErrors = true) { cursor ->
             val id = cursor.getIntValue(Data.RAW_CONTACT_ID)
             val address = cursor.getStringValue(StructuredPostal.FORMATTED_ADDRESS) ?: return@queryCursor
+            val country = cursor.getStringValue(StructuredPostal.COUNTRY) ?: ""
+            val region = cursor.getStringValue(StructuredPostal.REGION) ?: ""
+            val city = cursor.getStringValue(StructuredPostal.CITY) ?: ""
+            val postcode = cursor.getStringValue(StructuredPostal.POSTCODE) ?: ""
+            val pobox = cursor.getStringValue(StructuredPostal.POBOX) ?: ""
+            val street = cursor.getStringValue(StructuredPostal.STREET) ?: ""
+            val neighborhood = cursor.getStringValue(StructuredPostal.NEIGHBORHOOD) ?: ""
             val type = cursor.getIntValue(StructuredPostal.TYPE)
             val label = cursor.getStringValue(StructuredPostal.LABEL) ?: ""
 
@@ -379,7 +393,8 @@ class ContactsHelper(val context: Context) {
                 addresses.put(id, ArrayList())
             }
 
-            addresses[id]!!.add(Address(address, type, label))
+            addresses[id]!!.add(Address(address, type, label, country, region, city, postcode, pobox, street,
+                neighborhood))
         }
 
         return addresses
@@ -985,6 +1000,13 @@ class ContactsHelper(val context: Context) {
                     withValue(Data.RAW_CONTACT_ID, contact.id)
                     withValue(Data.MIMETYPE, StructuredPostal.CONTENT_ITEM_TYPE)
                     withValue(StructuredPostal.FORMATTED_ADDRESS, it.value)
+                    if (it.country.isNotEmpty()) withValue(StructuredPostal.COUNTRY, it.country)
+                    if (it.region.isNotEmpty()) withValue(StructuredPostal.REGION, it.region)
+                    if (it.city.isNotEmpty()) withValue(StructuredPostal.CITY, it.city)
+                    if (it.postcode.isNotEmpty()) withValue(StructuredPostal.POSTCODE, it.postcode)
+                    if (it.pobox.isNotEmpty()) withValue(StructuredPostal.POBOX, it.pobox)
+                    if (it.street.isNotEmpty()) withValue(StructuredPostal.STREET, it.street)
+                    if (it.neighborhood.isNotEmpty()) withValue(StructuredPostal.NEIGHBORHOOD, it.neighborhood)
                     withValue(StructuredPostal.TYPE, it.type)
                     withValue(StructuredPostal.LABEL, it.label)
                     operations.add(build())
@@ -1279,6 +1301,13 @@ class ContactsHelper(val context: Context) {
                     withValueBackReference(Data.RAW_CONTACT_ID, 0)
                     withValue(Data.MIMETYPE, StructuredPostal.CONTENT_ITEM_TYPE)
                     withValue(StructuredPostal.FORMATTED_ADDRESS, it.value)
+                    if (it.country.isNotEmpty()) withValue(StructuredPostal.COUNTRY, it.country)
+                    if (it.region.isNotEmpty()) withValue(StructuredPostal.REGION, it.region)
+                    if (it.city.isNotEmpty()) withValue(StructuredPostal.CITY, it.city)
+                    if (it.postcode.isNotEmpty()) withValue(StructuredPostal.POSTCODE, it.postcode)
+                    if (it.pobox.isNotEmpty()) withValue(StructuredPostal.POBOX, it.pobox)
+                    if (it.street.isNotEmpty()) withValue(StructuredPostal.STREET, it.street)
+                    if (it.neighborhood.isNotEmpty()) withValue(StructuredPostal.NEIGHBORHOOD, it.neighborhood)
                     withValue(StructuredPostal.TYPE, it.type)
                     withValue(StructuredPostal.LABEL, it.label)
                     operations.add(build())
