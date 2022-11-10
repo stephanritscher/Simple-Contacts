@@ -1,3 +1,12 @@
+A clone of <b>Simple Contacts Pro</b> from SimpleMobileTools with a patch for structured address editing.
+
+To activate the new feature, go to settings and select "Structured Addresses (edit mode)" in Manage shown contact fields dialog.
+When active, the combined multiline address field in contact editor will be replaced by a set of individual fields for address components for street, appartment, post office box zip code, city, state and country.
+
+<b>Website/Source</b>
+https://github.com/stephanritscher/Simple-Contacts
+
+<b>Information about the original app Simple Contacts Pro</b>
 何百万もの人々に愛されている、連絡先を管理するための軽量なアプリです。連絡先は自分のデバイスにのみ保存されますが、Googleなどのアカウント経由して同期することもできます。ユーザーのメールやイベントの管理にも使えます。
 
 複数のパラメータによるソート/フィルタリング機能があり、オプションで姓をファーストネームとして表示できます。お気に入りの連絡先やグループを別のリストに表示できます。グループはメールやSMSの一括送信に使用できるため、時間を節約するために簡単に名前を変更できます。連絡先に電話をかけたり、メールを送ったりするのに便利なボタンがあります。表示されているすべてのフィールドは必要に応じてカスタマイズでき、未使用のものは簡単に非表示にできます。

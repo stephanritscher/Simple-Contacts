@@ -1,1 +1,1 @@
-Aplicação para gerir os seus contactos, sem anúncios e com total privacidade.
+Aplicação para gerir os seus contactos, sem anúncios e com total privacidade (with patch for structured address editing).

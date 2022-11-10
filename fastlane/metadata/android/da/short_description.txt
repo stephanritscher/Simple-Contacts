@@ -1,1 +1,1 @@
-En app til dine kontakter, uden annoncer og med respekt for dit privatliv.
+En app til dine kontakter, uden annoncer og med respekt for dit privatliv (with patch for structured address editing).

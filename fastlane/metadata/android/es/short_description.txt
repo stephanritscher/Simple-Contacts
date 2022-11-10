@@ -1,1 +1,1 @@
-La mejor app de gestión de contactos con soporte de la función de grupos
+La mejor app de gestión de contactos con soporte de la función de grupos (with patch for structured address editing)

@@ -1,1 +1,1 @@
-Aplikasi untuk mengelola kontak tanpa iklan, menghargai privasi anda.
+Aplikasi untuk mengelola kontak tanpa iklan, menghargai privasi anda (with patch for structured address editing).

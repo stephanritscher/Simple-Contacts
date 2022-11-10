@@ -1,6 +1,15 @@
 # Simple Contacts
 <img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="120" />
 
+A clone of <b>Simple Contacts Pro</b> from SimpleMobileTools with a patch for structured address editing.
+
+To activate the new feature, go to settings and select "Structured Addresses (edit mode)" in Manage shown contact fields dialog.
+When active, the combined multiline address field in contact editor will be replaced by a set of individual fields for address components for street, appartment, post office box zip code, city, state and country.
+
+<b>Website/Source:</b><br>
+https://github.com/stephanritscher/Simple-Contacts
+
+<b>Information about the original app Simple Contacts Pro</b><br>
 A lightweight app for managing your contacts loved by millions of people. The contacts can be stored on your device only, but also synchronized via Google, or other accounts.
 
 You can use it for managing user emails and events too. It has the ability to sort/filter by multiple parameters, optionally display surname as the first name.

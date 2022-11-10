@@ -1,1 +1,1 @@
-Książka adresowa do zarządzania ostatnimi kontaktami i kopiami zapasowymi VCF
+Książka adresowa do zarządzania ostatnimi kontaktami i kopiami zapasowymi VCF (with patch for structured address editing)
