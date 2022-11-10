@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+Version 6.19.1.1 *(2022-11-10)*
+----------------------------
+
+ * Applying patch for structured address editing
+
 Version 6.19.1 *(2022-06-26)*
 ----------------------------
 
