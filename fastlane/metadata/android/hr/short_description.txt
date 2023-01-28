@@ -1,1 +1,0 @@
-Aplikacija za upravljanje kontaktima, bez oglasa, poštujući Vašu privatnost (with patch for structured address editing).
