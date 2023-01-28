@@ -1,1 +1,0 @@
-Een privacyvriendelijke advertentievrije app om uw contacten te beheren (with patch for structured address editing).
