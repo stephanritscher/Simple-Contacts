@@ -1,10 +1,17 @@
 Changelog
 ==========
 
+
+Version 6.19.1.2 *(2023-02-01)*
+----------------------------
+
+ * Changed pictures, icons and descriptive texts
+
 Version 6.19.1.1 *(2022-11-10)*
 ----------------------------
 
  * Applying patch for structured address editing
+ * Changed app name
 
 Version 6.19.1 *(2022-06-26)*
 ----------------------------
