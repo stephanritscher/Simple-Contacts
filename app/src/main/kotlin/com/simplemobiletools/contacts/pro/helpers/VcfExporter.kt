@@ -1,18 +1,18 @@
 package com.simplemobiletools.contacts.pro.helpers
 
 import android.net.Uri
-import android.provider.ContactsContract.CommonDataKinds
+import android.provider.ContactsContract.CommonDataKinds.Email
 import android.provider.ContactsContract.CommonDataKinds.Event
 import android.provider.ContactsContract.CommonDataKinds.Im
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.provider.MediaStore
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
+import com.simplemobiletools.commons.extensions.getByteArray
 import com.simplemobiletools.commons.extensions.getDateTimeFromDateString
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.extensions.toast
 import com.simplemobiletools.contacts.pro.R
-import com.simplemobiletools.contacts.pro.extensions.getByteArray
 import com.simplemobiletools.contacts.pro.helpers.VcfExporter.ExportResult.EXPORT_FAIL
 import com.simplemobiletools.contacts.pro.models.Contact
 import ezvcard.Ezvcard
@@ -51,6 +51,12 @@ class VcfExporter {
             val cards = ArrayList<VCard>()
             for (contact in contacts) {
                 val card = VCard()
+
+                val formattedName = arrayOf(contact.prefix, contact.firstName, contact.middleName, contact.surname, contact.suffix)
+                    .filter { it.isNotEmpty() }
+                    .joinToString(separator = " ")
+                card.formattedName = FormattedName(formattedName)
+
                 StructuredName().apply {
                     prefixes.add(contact.prefix)
                     given = contact.firstName
@@ -182,10 +188,10 @@ class VcfExporter {
     }
 
     private fun getEmailTypeLabel(type: Int, label: String) = when (type) {
-        CommonDataKinds.Email.TYPE_HOME -> HOME
-        CommonDataKinds.Email.TYPE_WORK -> WORK
-        CommonDataKinds.Email.TYPE_MOBILE -> MOBILE
-        CommonDataKinds.Email.TYPE_OTHER -> OTHER
+        Email.TYPE_HOME -> HOME
+        Email.TYPE_WORK -> WORK
+        Email.TYPE_MOBILE -> MOBILE
+        Email.TYPE_OTHER -> OTHER
         else -> label
     }
 

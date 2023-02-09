@@ -1,21 +1,15 @@
 package com.simplemobiletools.contacts.pro.activities
 
 import android.app.Activity
-import android.app.SearchManager
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Email
 import android.provider.ContactsContract.CommonDataKinds.Phone
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuItemCompat
 import androidx.viewpager.widget.ViewPager
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -40,8 +34,6 @@ class InsertOrEditContactActivity : SimpleActivity(), RefreshContactsListener {
     private val START_INSERT_ACTIVITY = 1
     private val START_EDIT_ACTIVITY = 2
 
-    private var isSearchOpen = false
-    private var searchMenuItem: MenuItem? = null
     private var isSelectContactIntent = false
     private var specialMimeType: String? = null
 
@@ -53,7 +45,9 @@ class InsertOrEditContactActivity : SimpleActivity(), RefreshContactsListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insert_edit_contact)
+        setupOptionsMenu()
         isSelectContactIntent = intent.action == Intent.ACTION_PICK
+        updateMaterialActivityViews(insert_edit_coordinator, insert_edit_contact_holder, useTransparentNavigation = false, useTopSearchMenu = true)
 
         if (isSelectContactIntent) {
             specialMimeType = when (intent.data) {
@@ -88,28 +82,38 @@ class InsertOrEditContactActivity : SimpleActivity(), RefreshContactsListener {
 
     override fun onResume() {
         super.onResume()
+        updateMenuColors()
         setupTabColors()
     }
 
-    override fun onStop() {
-        super.onStop()
-        searchMenuItem?.collapseActionView()
-    }
+    private fun setupOptionsMenu() {
+        insert_edit_menu.getToolbar().inflateMenu(R.menu.menu_insert_or_edit)
+        insert_edit_menu.toggleHideOnScroll(false)
+        insert_edit_menu.setupMenu()
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_insert_or_edit, menu)
-        setupSearch(menu)
-        updateMenuItemColors(menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.sort -> showSortingDialog()
-            R.id.filter -> showFilterDialog()
-            else -> return super.onOptionsItemSelected(item)
+        insert_edit_menu.onSearchClosedListener = {
+            getAllFragments().forEach {
+                it?.onSearchClosed()
+            }
         }
-        return true
+
+        insert_edit_menu.onSearchTextChangedListener = { text ->
+            getCurrentFragment()?.onSearchQueryChanged(text)
+        }
+
+        insert_edit_menu.getToolbar().setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.sort -> showSortingDialog()
+                R.id.filter -> showFilterDialog()
+                else -> return@setOnMenuItemClickListener false
+            }
+            return@setOnMenuItemClickListener true
+        }
+    }
+
+    private fun updateMenuColors() {
+        updateStatusbarColor(getProperBackgroundColor())
+        insert_edit_menu.updateColors()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
@@ -120,20 +124,25 @@ class InsertOrEditContactActivity : SimpleActivity(), RefreshContactsListener {
         }
     }
 
+    override fun onBackPressed() {
+        if (insert_edit_menu.isSearchOpen) {
+            insert_edit_menu.closeSearch()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     private fun initFragments() {
         view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-                if (isSearchOpen) {
-                    getCurrentFragment()?.onSearchQueryChanged("")
-                    searchMenuItem?.collapseActionView()
-                }
-            }
+            override fun onPageScrollStateChanged(state: Int) {}
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
-                insert_or_edit_tabs_holder.getTabAt(position)?.select()
-                invalidateOptionsMenu()
+                insert_edit_tabs_holder.getTabAt(position)?.select()
+                getAllFragments().forEach {
+                    it?.finishActMode()
+                }
             }
         })
 
@@ -150,70 +159,29 @@ class InsertOrEditContactActivity : SimpleActivity(), RefreshContactsListener {
     }
 
     private fun setupTabs() {
-        insert_or_edit_tabs_holder.removeAllTabs()
+        insert_edit_tabs_holder.removeAllTabs()
         contactsFavoritesList.forEachIndexed { index, value ->
             if (config.showTabs and value != 0) {
-                insert_or_edit_tabs_holder.newTab().setCustomView(R.layout.bottom_tablayout_item).apply {
+                insert_edit_tabs_holder.newTab().setCustomView(R.layout.bottom_tablayout_item).apply {
                     customView?.findViewById<ImageView>(R.id.tab_item_icon)?.setImageDrawable(getTabIcon(index))
                     customView?.findViewById<TextView>(R.id.tab_item_label)?.text = getTabLabel(index)
-                    insert_or_edit_tabs_holder.addTab(this)
+                    insert_edit_tabs_holder.addTab(this)
                 }
             }
         }
 
-        insert_or_edit_tabs_holder.onTabSelectionChanged(
+        insert_edit_tabs_holder.onTabSelectionChanged(
             tabUnselectedAction = {
-                updateBottomTabItemColors(it.customView, false)
+                updateBottomTabItemColors(it.customView, false, getDeselectedTabDrawableIds()[it.position])
             },
             tabSelectedAction = {
-                closeSearch()
+                insert_edit_menu.closeSearch()
                 view_pager.currentItem = it.position
-                updateBottomTabItemColors(it.customView, true)
+                updateBottomTabItemColors(it.customView, true, getSelectedTabDrawableIds()[it.position])
             }
         )
 
-        insert_or_edit_tabs_holder.beGoneIf(insert_or_edit_tabs_holder.tabCount == 1)
-    }
-
-    private fun setupSearch(menu: Menu) {
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchMenuItem = menu.findItem(R.id.search)
-        (searchMenuItem!!.actionView as SearchView).apply {
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-            isSubmitButtonEnabled = false
-            queryHint = getString(getSearchString())
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String) = false
-
-                override fun onQueryTextChange(newText: String): Boolean {
-                    if (isSearchOpen) {
-                        getCurrentFragment()?.onSearchQueryChanged(newText)
-                    }
-                    return true
-                }
-            })
-        }
-
-        MenuItemCompat.setOnActionExpandListener(searchMenuItem, object : MenuItemCompat.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                getCurrentFragment()?.onSearchOpened()
-                isSearchOpen = true
-                return true
-            }
-
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                getCurrentFragment()?.onSearchClosed()
-                isSearchOpen = false
-                return true
-            }
-        })
-    }
-
-    private fun getSearchString(): Int {
-        return when (getCurrentFragment()) {
-            favorites_fragment -> R.string.search_favorites
-            else -> R.string.search_contacts
-        }
+        insert_edit_tabs_holder.beGoneIf(insert_edit_tabs_holder.tabCount == 1)
     }
 
     private fun getCurrentFragment(): MyViewPagerFragment? {
@@ -227,20 +195,30 @@ class InsertOrEditContactActivity : SimpleActivity(), RefreshContactsListener {
     private fun getAllFragments() = arrayListOf(contacts_fragment, favorites_fragment)
 
     private fun setupTabColors() {
-        val activeView = insert_or_edit_tabs_holder.getTabAt(view_pager.currentItem)?.customView
-        updateBottomTabItemColors(activeView, true)
+        val activeView = insert_edit_tabs_holder.getTabAt(view_pager.currentItem)?.customView
+        updateBottomTabItemColors(activeView, true, getSelectedTabDrawableIds()[view_pager.currentItem])
 
         getInactiveTabIndexes(view_pager.currentItem).forEach { index ->
-            val inactiveView = insert_or_edit_tabs_holder.getTabAt(index)?.customView
-            updateBottomTabItemColors(inactiveView, false)
+            val inactiveView = insert_edit_tabs_holder.getTabAt(index)?.customView
+            updateBottomTabItemColors(inactiveView, false, getDeselectedTabDrawableIds()[index])
         }
 
-        val bottomBarColor = getBottomTabsBackgroundColor()
-        insert_or_edit_tabs_holder.setBackgroundColor(bottomBarColor)
+        val bottomBarColor = getBottomNavigationBackgroundColor()
+        insert_edit_tabs_holder.setBackgroundColor(bottomBarColor)
         updateNavigationBarColor(bottomBarColor)
     }
 
-    private fun getInactiveTabIndexes(activeIndex: Int) = (0 until contactsFavoritesList.size).filter { it != activeIndex }
+    private fun getInactiveTabIndexes(activeIndex: Int) = (0 until insert_edit_tabs_holder.tabCount).filter { it != activeIndex }
+
+    private fun getSelectedTabDrawableIds() = arrayOf(
+        R.drawable.ic_person_vector,
+        R.drawable.ic_star_vector
+    )
+
+    private fun getDeselectedTabDrawableIds() = arrayOf(
+        R.drawable.ic_person_outline_vector,
+        R.drawable.ic_star_outline_vector
+    )
 
     override fun refreshContacts(refreshTabsMask: Int) {
         if (isDestroyed || isFinishing) {
@@ -276,10 +254,12 @@ class InsertOrEditContactActivity : SimpleActivity(), RefreshContactsListener {
             }
 
             if (refreshTabsMask and TAB_CONTACTS != 0) {
+                contacts_fragment?.skipHashComparing = true
                 contacts_fragment?.refreshContacts(contacts, placeholderText)
             }
 
             if (refreshTabsMask and TAB_FAVORITES != 0) {
+                favorites_fragment?.skipHashComparing = true
                 favorites_fragment?.refreshContacts(contacts, placeholderText)
             }
         }
@@ -353,19 +333,6 @@ class InsertOrEditContactActivity : SimpleActivity(), RefreshContactsListener {
             } catch (e: Exception) {
                 showErrorToast(e)
             }
-        }
-    }
-
-    fun fabClicked() {
-        createNewContact()
-    }
-
-    private fun closeSearch() {
-        if (isSearchOpen) {
-            getAllFragments().forEach {
-                it?.onSearchQueryChanged("")
-            }
-            searchMenuItem?.collapseActionView()
         }
     }
 

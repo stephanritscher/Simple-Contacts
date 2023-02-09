@@ -1,11 +1,9 @@
 package com.simplemobiletools.contacts.pro.extensions
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Handler
@@ -13,11 +11,12 @@ import android.os.Looper
 import android.provider.ContactsContract
 import androidx.core.content.FileProvider
 import com.simplemobiletools.commons.extensions.*
-import com.simplemobiletools.commons.helpers.*
+import com.simplemobiletools.commons.helpers.PERMISSION_READ_CONTACTS
+import com.simplemobiletools.commons.helpers.PERMISSION_WRITE_CONTACTS
+import com.simplemobiletools.commons.helpers.SMT_PRIVATE
+import com.simplemobiletools.commons.helpers.SimpleContactsHelper
 import com.simplemobiletools.contacts.pro.BuildConfig
 import com.simplemobiletools.contacts.pro.R
-import com.simplemobiletools.contacts.pro.activities.EditContactActivity
-import com.simplemobiletools.contacts.pro.activities.ViewContactActivity
 import com.simplemobiletools.contacts.pro.databases.ContactsDatabase
 import com.simplemobiletools.contacts.pro.helpers.*
 import com.simplemobiletools.contacts.pro.interfaces.ContactsDao
@@ -27,7 +26,6 @@ import com.simplemobiletools.contacts.pro.models.ContactSource
 import com.simplemobiletools.contacts.pro.models.Organization
 import com.simplemobiletools.contacts.pro.models.SocialAction
 import java.io.File
-
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
@@ -42,13 +40,6 @@ fun Context.getEmptyContact(): Contact {
         0, "", "", "", "", "", "", "", ArrayList(), ArrayList(), ArrayList(), ArrayList(), originalContactSource, 0, 0, "",
         null, "", ArrayList(), organization, ArrayList(), ArrayList(), DEFAULT_MIMETYPE, null
     )
-}
-
-fun Context.sendEmailIntent(recipient: String) {
-    Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.fromParts(KEY_MAILTO, recipient, null)
-        launchActivityIntent(this)
-    }
 }
 
 fun Context.sendAddressIntent(address: String) {
@@ -348,11 +339,11 @@ fun Context.getSocialActions(id: Int): ArrayList<SocialAction> {
 fun Context.getPackageDrawable(packageName: String): Drawable {
     return resources.getDrawable(
         when (packageName) {
-            TELEGRAM_PACKAGE -> R.drawable.ic_telegram_vector
-            SIGNAL_PACKAGE -> R.drawable.ic_signal_vector
-            WHATSAPP_PACKAGE -> R.drawable.ic_whatsapp_vector
-            VIBER_PACKAGE -> R.drawable.ic_viber_vector
-            else -> R.drawable.ic_threema_vector
+            TELEGRAM_PACKAGE -> R.drawable.ic_telegram_rect_vector
+            SIGNAL_PACKAGE -> R.drawable.ic_signal_rect_vector
+            WHATSAPP_PACKAGE -> R.drawable.ic_whatsapp_rect_vector
+            VIBER_PACKAGE -> R.drawable.ic_viber_rect_vector
+            else -> R.drawable.ic_threema_rect_vector
         }, theme
     )
 }

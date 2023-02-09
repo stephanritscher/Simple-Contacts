@@ -16,7 +16,6 @@ import android.provider.MediaStore
 import android.telephony.PhoneNumberUtils
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -111,10 +110,6 @@ class EditContactActivity : ContactActivity() {
             }
         } else {
             initContact()
-        }
-
-        if (isRPlus()) {
-            window.insetsController?.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
         }
     }
 
@@ -451,8 +446,6 @@ class EditContactActivity : ContactActivity() {
 
     private fun setupEditContact() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
-        updateActionBarTitle(resources.getString(R.string.edit_contact))
-
         setupNames()
         setupPhoneNumbers()
         setupEmails()
@@ -767,7 +760,6 @@ class EditContactActivity : ContactActivity() {
     }
 
     private fun setupNewContact() {
-        updateActionBarTitle(resources.getString(R.string.new_contact))
         originalContactSource = if (hasContactPermissions()) config.lastUsedContactSource else SMT_PRIVATE
         contact = getEmptyContact()
         getPublicContactSource(contact!!.source) {

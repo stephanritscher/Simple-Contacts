@@ -5,9 +5,9 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.simplemobiletools.commons.extensions.*
+import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
 import com.simplemobiletools.contacts.pro.R
 import com.simplemobiletools.contacts.pro.adapters.ContactsAdapter
@@ -32,28 +32,18 @@ class GroupContactsActivity : SimpleActivity(), RemoveFromGroupListener, Refresh
 
     protected var contact: Contact? = null
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, resultData)
-        if (requestCode == INTENT_SELECT_RINGTONE && resultCode == Activity.RESULT_OK && resultData != null) {
-            val extras = resultData.extras
-            if (extras?.containsKey(RingtoneManager.EXTRA_RINGTONE_PICKED_URI) == true) {
-                val uri = extras.getParcelable<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI) ?: return
-                try {
-                    setRingtoneOnSelected(uri)
-                } catch (e: Exception) {
-                    showErrorToast(e)
-                }
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        isMaterialActivity = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_contacts)
         updateTextColors(group_contacts_coordinator)
+        setupOptionsMenu()
+
+        updateMaterialActivityViews(group_contacts_coordinator, group_contacts_list, useTransparentNavigation = true, useTopSearchMenu = false)
+        setupMaterialScrollListener(group_contacts_list, group_contacts_toolbar)
 
         group = intent.extras?.getSerializable(GROUP) as Group
-        supportActionBar?.title = group.title
+        group_contacts_toolbar.title = group.title
 
         group_contacts_fab.setOnClickListener {
             if (wasInit) {
@@ -74,22 +64,36 @@ class GroupContactsActivity : SimpleActivity(), RemoveFromGroupListener, Refresh
     override fun onResume() {
         super.onResume()
         refreshContacts()
+        setupToolbar(group_contacts_toolbar, NavigationIcon.Arrow)
+        (group_contacts_fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin =
+            navigationBarHeight + resources.getDimension(R.dimen.activity_margin).toInt()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_group, menu)
-        updateMenuItemColors(menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.send_sms_to_group -> sendSMSToGroup()
-            R.id.send_email_to_group -> sendEmailToGroup()
-            R.id.assign_ringtone_to_group -> assignRingtoneToGroup()
-            else -> return super.onOptionsItemSelected(item)
+    private fun setupOptionsMenu() {
+        group_contacts_toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.send_sms_to_group -> sendSMSToGroup()
+                R.id.send_email_to_group -> sendEmailToGroup()
+                R.id.assign_ringtone_to_group -> assignRingtoneToGroup()
+                else -> return@setOnMenuItemClickListener false
+            }
+            return@setOnMenuItemClickListener true
         }
-        return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, resultData)
+        if (requestCode == INTENT_SELECT_RINGTONE && resultCode == Activity.RESULT_OK && resultData != null) {
+            val extras = resultData.extras
+            if (extras?.containsKey(RingtoneManager.EXTRA_RINGTONE_PICKED_URI) == true) {
+                val uri = extras.getParcelable<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI) ?: return
+                try {
+                    setRingtoneOnSelected(uri)
+                } catch (e: Exception) {
+                    showErrorToast(e)
+                }
+            }
+        }
     }
 
     private fun fabClicked() {
@@ -116,11 +120,19 @@ class GroupContactsActivity : SimpleActivity(), RemoveFromGroupListener, Refresh
     }
 
     private fun sendSMSToGroup() {
-        sendSMSToContacts(groupContacts)
+        if (groupContacts.isEmpty()) {
+            toast(R.string.no_contacts_found)
+        } else {
+            sendSMSToContacts(groupContacts)
+        }
     }
 
     private fun sendEmailToGroup() {
-        sendEmailToContacts(groupContacts)
+        if (groupContacts.isEmpty()) {
+            toast(R.string.no_contacts_found)
+        } else {
+            sendEmailToContacts(groupContacts)
+        }
     }
 
     private fun assignRingtoneToGroup() {
@@ -185,5 +197,4 @@ class GroupContactsActivity : SimpleActivity(), RemoveFromGroupListener, Refresh
             ContactsHelper(this).updateRingtone(it.contactId.toString(), uri.toString())
         }
     }
-
 }

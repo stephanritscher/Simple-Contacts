@@ -6,14 +6,14 @@
     <string name="inserting">Vytváří se…</string>
     <string name="updating">Upravuje se…</string>
     <string name="phone_storage">Úložiště telefonu</string>
-    <string name="phone_storage_hidden">Úložiště telefonu (neviditelné pro ostatní apky)</string>
+    <string name="phone_storage_hidden">Úložiště telefonu (neviditelné pro ostatní aplikace)</string>
     <string name="company">Firma</string>
     <string name="job_position">Pracovní pozice</string>
     <string name="send_sms_to_contacts">Poslat kontaktům SMS</string>
     <string name="send_email_to_contacts">Poslat kontaktům e-mail</string>
     <string name="send_sms_to_group">Poslat skupině SMS</string>
     <string name="send_email_to_group">Poslat skupině e-mail</string>
-    <string name="fields_empty">At least 1 field has to be filled out</string>
+    <string name="fields_empty">Musí být vyplněno alespoň 1 pole</string>
     <string name="must_be_at_edit">Pro úpravu kontaktu musíte být v Editoru kontaktu</string>
     <!-- Placeholders -->
     <string name="no_contacts_with_emails">Nenalezeny žádné kontakty s e-maily</string>
@@ -33,10 +33,8 @@
     <string name="add_to_group">Přidat do skupiny</string>
     <string name="create_group_under_account">Vytvořit skupinu pod účet</string>
     <!-- Photo -->
-    <string name="take_photo">Pořídit fotku</string>
-    <string name="choose_photo">Zvolit fotku</string>
     <string name="remove_photo">Odstranit fotku</string>
-    <string name="change_photo">Change photo</string>
+    <string name="change_photo">Změnit fotku</string>
     <!-- Settings -->
     <string name="show_phone_numbers">Zobrazit telefonní čísla</string>
     <string name="show_contact_thumbnails">Zobrazit obrázky kontaktů</string>
@@ -47,18 +45,15 @@
     <string name="manage_shown_contact_fields">Spravovat zobrazená pole kontaktů</string>
     <string name="contacts">Kontakty</string>
     <string name="show_only_contacts_with_numbers">Zobrazit jen kontakty s telefonními čísly</string>
-    <string name="show_private_contacts">Show private contacts to Simple Dialer, Simple SMS Messenger and Simple Calendar Pro</string>
-    <string name="merge_duplicate_contacts">Merge duplicate contacts</string>
-    <!-- Events -->
-    <string name="birthday">Narozeniny</string>
-    <string name="anniversary">Výročí</string>
+    <string name="show_private_contacts">Zobrazit soukromé kontakty do aplikací Jednoduchý telefon, Jednoduché SMS zprávy a Jednoduchý kalendář</string>
+    <string name="merge_duplicate_contacts">Sloučit duplicitní kontakty</string>
     <!-- Favorites -->
     <string name="no_favorites">Vypadá to, že jste ještě nepřidali žádné oblíbené kontakty.</string>
-    <string name="toggle_favorite">Toggle favorite</string>
+    <string name="toggle_favorite">Přepínač oblíbenosti</string>
     <!-- Search -->
-    <string name="search_contacts">Hledat v kontaktech</string>
-    <string name="search_favorites">Hledat mezi oblíbenými</string>
-    <string name="search_groups">Hledat mezi skupinami</string>
+    <string name="search_contacts">Hledat kontakty</string>
+    <string name="search_favorites">Hledat oblíbené</string>
+    <string name="search_groups">Hledat skupiny</string>
     <!-- Export / Import -->
     <string name="import_contacts">Importovat kontakty</string>
     <string name="export_contacts">Exportovat kontakty</string>
@@ -82,8 +77,8 @@
     <string name="websites">Webové stránky</string>
     <string name="groups">Skupiny</string>
     <string name="contact_source">Zdroje kontaktů</string>
-    <string name="instant_messaging">Rychlé zprávy (IM)</string>
-    <string name="ringtone">Ringtone</string>
+    <string name="instant_messaging">Komunikátory (IM)</string>
+    <string name="ringtone">Vyzvánění</string>
     <!-- Confirmation dialog -->
     <string name="delete_from_all_sources">Kontakt bude vymazán ze všech zdrojů kontaktů.</string>
     <plurals name="delete_groups">
@@ -94,52 +89,6 @@
     <!-- FAQ -->
     <string name="faq_1_title">Chci upravit viditelná pole kontaktů. Lze to?</string>
     <string name="faq_1_text">Ano, stačí jít do Nastavení -&gt; Spravovat zobrazená pole kontaktů. Tam si můžete zvolit, která pole mají být viditelná. Některá jsou ve výchozím stavu vypnutá, takže tam můžete objevit i nová pole.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Jednoduché Kontakty Pro - Rychlá správa kontaktů</string>
-    <!-- Short description has to have less than 80 chars -->
-    <string name="app_short_description">Prémiová aplikace na správu kontaktů bez reklam, s podporou skupin a oblíbených</string>
-    <string name="app_long_description">
-        A lightweight app for managing your contacts loved by millions of people. The contacts can be stored on your device only, but also synchronized via Google, or other accounts.
-
-        You can use it for managing user emails and events too. It has the ability to sort/filter by multiple parameters, optionally display surname as the first name.
-
-        You can display your favorite contacts or groups on a separate list. Groups can be used for sending out batch emails or SMS, to save you some time, you can rename them easily.
-
-        It contains handy buttons for calling, or texting your contacts. All visible fields can be customized as you wish, you can easily hide the unused ones. The search function will search the given string at every visible contact field, to make you find your desired contact easily.
-
-        There is a lightweight dialpad at your service too, with smart contact suggestions.
-
-        It supports exporting/importing contacts in vCard format to .vcf files, for easy migrations or backing up your data.
-
-        With this modern and stable contacts manager you can protect your contacts by not sharing them with other apps, so you can keep your contacts private.
-
-        Like the contact source, you can also easily change the contact name, email, phone number, address, organization, groups and many other customizable fields. You can use it for storing contact events too, like birthdays, anniversaries, or any other custom ones.
-
-        This simple contact editor has many handy settings like showing phone numbers on the main screen, toggle contact thumbnail visibility, showing only contacts with phone numbers, showing a call confirmation dialog before initiating a call. It comes with a quick dialer that also makes use of letters.
-
-        To further improve the user experience, you can customize what happens at clicking on a contact. You can either initiate a call, go to the View Details screen, or edit the selected contact.
-
-        You can easily block phone numbers to avoid unwanted incoming calls.
-
-        To avoid showing potentially unwanted contacts, it has a powerful built in duplicate contact merger.
-
-        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
-
-        Neobsahuje žádné reklamy, ani nepotřebná oprávnění. Má plně otevřený zdrojový kód a možnost změny barev.
-
-        <b>Check out the full suite of Simple Tools here:</b>
-        https://www.simplemobiletools.com
-
-        <b>Standalone website of Simple Contacts Pro:</b>
-        https://www.simplemobiletools.com/contacts
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

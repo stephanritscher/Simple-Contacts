@@ -737,8 +737,14 @@ class ContactsHelper(val context: Context) {
                 var middleName = ""
                 var surname = ""
                 var suffix = ""
-                val mimetype = cursor.getStringValue(Data.MIMETYPE)
+                var mimetype = cursor.getStringValue(Data.MIMETYPE)
 
+                // if first line is an Organization type contact, go to next line
+                if (mimetype != StructuredName.CONTENT_ITEM_TYPE) {
+                    if (cursor.moveToNext()) {
+                        mimetype = cursor.getStringValue(Data.MIMETYPE)
+                    }
+                }
                 // ignore names at Organization type contacts
                 if (mimetype == StructuredName.CONTENT_ITEM_TYPE) {
                     prefix = cursor.getStringValue(StructuredName.PREFIX) ?: ""
@@ -749,7 +755,7 @@ class ContactsHelper(val context: Context) {
                 }
 
                 val nickname = getNicknames(id)[id] ?: ""
-                val photoUri = cursor.getStringValue(Phone.PHOTO_URI) ?: ""
+                val photoUri = cursor.getStringValueOrNull(Phone.PHOTO_URI) ?: ""
                 val number = getPhoneNumbers(id)[id] ?: ArrayList()
                 val emails = getEmails(id)[id] ?: ArrayList()
                 val addresses = getAddresses(id)[id] ?: ArrayList()

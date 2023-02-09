@@ -1,14 +1,15 @@
 package com.simplemobiletools.contacts.pro.dialogs
 
 import androidx.appcompat.app.AlertDialog
+import com.simplemobiletools.commons.extensions.getAlertDialogBuilder
 import com.simplemobiletools.commons.extensions.setupDialogStuff
+import com.simplemobiletools.commons.helpers.SMT_PRIVATE
 import com.simplemobiletools.contacts.pro.R
 import com.simplemobiletools.contacts.pro.activities.SimpleActivity
 import com.simplemobiletools.contacts.pro.adapters.FilterContactSourcesAdapter
 import com.simplemobiletools.contacts.pro.extensions.config
 import com.simplemobiletools.contacts.pro.extensions.getVisibleContactSources
 import com.simplemobiletools.contacts.pro.helpers.ContactsHelper
-import com.simplemobiletools.contacts.pro.helpers.SMT_PRIVATE
 import com.simplemobiletools.contacts.pro.models.Contact
 import com.simplemobiletools.contacts.pro.models.ContactSource
 import kotlinx.android.synthetic.main.dialog_filter_contact_sources.view.*
@@ -58,11 +59,13 @@ class FilterContactSourcesDialog(val activity: SimpleActivity, private val callb
             view.filter_contact_sources_list.adapter = FilterContactSourcesAdapter(activity, contactSourcesWithCount, selectedSources)
 
             if (dialog == null) {
-                dialog = AlertDialog.Builder(activity)
+                activity.getAlertDialogBuilder()
                     .setPositiveButton(R.string.ok) { dialogInterface, i -> confirmContactSources() }
                     .setNegativeButton(R.string.cancel, null)
-                    .create().apply {
-                        activity.setupDialogStuff(view, this)
+                    .apply {
+                        activity.setupDialogStuff(view, this) { alertDialog ->
+                            dialog = alertDialog
+                        }
                     }
             }
         }

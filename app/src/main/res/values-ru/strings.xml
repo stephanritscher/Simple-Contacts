@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple Contacts</string>
+    <string name="app_name">Простые контакты</string>
     <string name="app_launcher_name">Контакты</string>
     <string name="address">Адрес</string>
     <string name="inserting">Добавление…</string>
@@ -33,8 +33,6 @@
     <string name="add_to_group">Добавить в группу</string>
     <string name="create_group_under_account">Создать группу в учётной записи</string>
     <!-- Photo -->
-    <string name="take_photo">Снять фото</string>
-    <string name="choose_photo">Выбрать фото</string>
     <string name="remove_photo">Удалить фото</string>
     <string name="change_photo">Изменить фото</string>
     <!-- Settings -->
@@ -47,17 +45,14 @@
     <string name="manage_shown_contact_fields">Управление отображаемыми полями контактов</string>
     <string name="contacts">Контакты</string>
     <string name="show_only_contacts_with_numbers">Показывать только контакты с номерами телефонов</string>
-    <string name="show_private_contacts">Показывать личные контакты в Simple Dialer, Simple SMS Messenger и Simple Calendar Pro</string>
+    <string name="show_private_contacts">Показывать личные контакты в \"Простом телефоне\", \"Простых сообщениях\" и \"Простом календаре\"</string>
     <string name="merge_duplicate_contacts">Объединять дублирующие контакты</string>
-    <!-- Events -->
-    <string name="birthday">День рождения</string>
-    <string name="anniversary">Годовщина</string>
     <!-- Favorites -->
     <string name="no_favorites">Похоже, вы ещё не добавили избранные контакты.</string>
     <string name="toggle_favorite">Переключить избранное</string>
     <!-- Search -->
     <string name="search_contacts">Поиск контактов</string>
-    <string name="search_favorites">Поиск избранных</string>
+    <string name="search_favorites">Поиск избранного</string>
     <string name="search_groups">Поиск групп</string>
     <!-- Export / Import -->
     <string name="import_contacts">Импортировать контакты</string>
@@ -65,11 +60,11 @@
     <string name="import_contacts_from_vcf">Импорт из файла VCF</string>
     <string name="import_contacts_from_vcf_pro">Импорт из файла VCF (Pro)</string>
     <string name="export_contacts_to_vcf">Экспорт в файл VCF</string>
-    <string name="target_contact_source">Назначенный к обновлению источник контактов</string>
+    <string name="target_contact_source">Целевой источник контакта</string>
     <string name="include_contact_sources">Включить источники контактов</string>
     <string name="filename_without_vcf">Имя файла (без .vcf)</string>
     <!-- Dialpad -->
-    <string name="dialpad">Набор номера</string>
+    <string name="dialpad">Номеронабиратель</string>
     <string name="add_number_to_contact">Добавить номер к контакту</string>
     <!-- Visible fields -->
     <string name="prefix">Префикс</string>
@@ -83,7 +78,7 @@
     <string name="groups">Группы</string>
     <string name="contact_source">Источник контакта</string>
     <string name="instant_messaging">Мессенджеры</string>
-    <string name="ringtone">Cигнал вызова</string>
+    <string name="ringtone">Сигнал вызова</string>
     <!-- Confirmation dialog -->
     <string name="delete_from_all_sources">Контакт будет удалён из всех источников контактов.</string>
     <plurals name="delete_groups">
@@ -94,12 +89,6 @@
     <!-- FAQ -->
     <string name="faq_1_title">Я хочу изменить поля, отображаемые у контактов. Могу ли я это сделать?</string>
     <string name="faq_1_text">Да, всё, что вам нужно сделать, это зайти в \"Настройки\" → \"Управление отображаемыми полями контактов\". Там вы сможете выбрать, какие поля должны быть видимы. Некоторые из них даже отключены по умолчанию, так что вы можете найти некоторые новые.</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple Contacts Pro - легко управляйте контактами</string>
-    <!-- Short description has to have less than 80 chars -->
-    <string name="app_short_description">Мощное приложение для управление контактами, группами и избранным без рекламы</string>
-    <string name="app_long_description"> Лёгкое приложение для управления контактами, которое нравится миллионам людей. Контакты могут храниться только на устройстве, но также синхронизироваться через Google или другие аккаунты. Вы также можете использовать его для управления электронной почтой и событиями контактов. Есть возможность сортировать/фильтровать по нескольким параметрам, при необходимости отображать фамилию в качестве имени. Избранные контакты или группы можно отобразить в отдельном списке. Группы можно использовать для экономии времени при множественной отправке электронных писем или SMS. Для удобства группы можно переименовывать. В приложении есть удобные кнопки для вызова или отправки текстовых сообщений вашим контактам. Все отображаемые поля настраиваются по вашему усмотрению, можно скрыть неиспользуемые. Функция поиска будет искать заданную строку в каждом отображаемом поле контакта, чтобы вы могли быстро найти нужный контакт. К вашим услугам также имеется функция простого набора номера с умными предложениями по контактам. Приложение поддерживает экспорт/импорт контактов в формате vCard в файлы .vcf для облегчения миграции или резервного копирования данных. С помощью этого современного и стабильного менеджера вы можете защитить свои контакты, не передавая их другим приложениям, что поможет сохранить свои контакты в тайне. Как и в случае с источником контактов, вы также можете легко изменить имя контакта, его электронную почту, номер телефона, адрес, организацию, группы и многие другие настраиваемые поля. Вы также можете использовать приложение для хранения событий контактов, таких как дни рождения, юбилеи или любые другие пользовательские события. Этот простой редактор контактов имеет множество удобных настроек, таких как отображение телефонных номеров на главном экране, переключение видимости фотографий контактов, отображение только контактов с телефонными номерами, отображение диалога подтверждения перед началом вызова. Содержит быстрый номеронабиратель, который также использует буквы. Чтобы улучшить взаимодействие с пользователем, вы можете настроить, что будет происходить при нажатии на контакт. Можно либо инициировать вызов, либо перейти на экран просмотра сведений, либо отредактировать выбранный контакт. Вы можете легко заблокировать телефонные номера, чтобы избежать нежелательных входящих звонков. Чтобы избежать отображения потенциально нежелательных контактов, приложение имеет мощную встроенную функцию слияния дубликатов контактов. Приложение выпускается с материальным дизайном и тёмной темой по умолчанию, что обеспечивает удобное использование. Отсутствие доступа в интернет обеспечивает вам больше приватности, безопасности и стабильности, чем в других приложениях. Не содержит рекламы или ненужных разрешений, полностью с открытым исходным кодом. Есть возможность настраивать цвета интерфейса. <b>Ознакомьтесь с полным набором приложений серии Simple здесь:</b> https://www.simplemobiletools.com <b>Сайт приложения Simple Contacts Pro:</b> https://www.simplemobiletools.com/contacts <b>Facebook:</b> https://www.facebook.com/simplemobiletools <b>Reddit:</b> https://www.reddit.com/r/SimpleMobileTools </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

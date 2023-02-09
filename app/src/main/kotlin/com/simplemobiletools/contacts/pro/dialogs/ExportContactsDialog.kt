@@ -30,17 +30,16 @@ class ExportContactsDialog(
 
     init {
         val view = (activity.layoutInflater.inflate(R.layout.dialog_export_contacts, null) as ViewGroup).apply {
-            export_contacts_folder.text = activity.humanizePath(realPath)
+            export_contacts_folder.setText(activity.humanizePath(realPath))
             export_contacts_filename.setText("contacts_${activity.getCurrentFormattedDateTime()}")
 
             if (hidePath) {
-                export_contacts_folder_label.beGone()
-                export_contacts_folder.beGone()
+                export_contacts_folder_hint.beGone()
             } else {
                 export_contacts_folder.setOnClickListener {
                     activity.hideKeyboard(export_contacts_filename)
                     FilePickerDialog(activity, realPath, false, showFAB = true) {
-                        export_contacts_folder.text = activity.humanizePath(it)
+                        export_contacts_folder.setText(activity.humanizePath(it))
                         realPath = it
                     }
                 }
@@ -59,12 +58,12 @@ class ExportContactsDialog(
             }
         }
 
-        AlertDialog.Builder(activity)
+        activity.getAlertDialogBuilder()
             .setPositiveButton(R.string.ok, null)
             .setNegativeButton(R.string.cancel, null)
-            .create().apply {
-                activity.setupDialogStuff(view, this, R.string.export_contacts) {
-                    getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            .apply {
+                activity.setupDialogStuff(view, this, R.string.export_contacts) { alertDialog ->
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                         if (view.export_contacts_list.adapter == null || ignoreClicks) {
                             return@setOnClickListener
                         }
@@ -88,7 +87,7 @@ class ExportContactsDialog(
                                         .map { it.getFullIdentifier() }
                                         .toHashSet()
                                     callback(file, ignoredSources)
-                                    dismiss()
+                                    alertDialog.dismiss()
                                 }
                             }
                             else -> activity.toast(R.string.invalid_name)

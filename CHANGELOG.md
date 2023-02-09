@@ -1,6 +1,46 @@
 Changelog
 ==========
 
+Version 6.22.1.1 *(2023-02-09)*
+----------------------------
+
+ * Merge upstream changes
+
+Version 6.22.1 *(2023-01-12)*
+----------------------------
+
+ * Added a search bar related bugfix
+ * Added some UI, translation and stability improvements
+
+Version 6.22.0 *(2023-01-04)*
+----------------------------
+
+ * Use Material You theme by default on Android 12+
+ * Increased minimal required Android OS version to 6
+ * Added some UI, translation and stability improvements
+
+Version 6.21.2 *(2022-12-11)*
+----------------------------
+
+ * Added some UX, translation and stability improvements
+
+Version 6.21.1 *(2022-10-06)*
+----------------------------
+
+ * Adding a Get Simple Phone button into the About section
+ * Added some translation and UX improvements
+
+Version 6.21.0 *(2022-08-18)*
+----------------------------
+
+ * Added Monochrome icon and Language picker support on Android 13+
+ * Added some translation, stability and UX improvements
+
+Version 6.20.0 *(2022-07-23)*
+----------------------------
+
+ * Adding some materialish redesign, especially in System default theme
+ * Added some stability, translation and UX improvements
 
 Version 6.19.1.2 *(2023-02-01)*
 ----------------------------

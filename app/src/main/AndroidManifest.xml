@@ -22,6 +22,11 @@
         android:name="android.hardware.telephony"
         android:required="false" />
 
+    <queries>
+        <package android:name="com.simplemobiletools.contacts.debug" />
+        <package android:name="com.simplemobiletools.contacts" />
+    </queries>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -39,15 +44,8 @@
 
         <activity
             android:name=".activities.MainActivity"
+            android:configChanges="orientation"
             android:exported="true">
-
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:resource="@xml/searchable" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -62,6 +60,7 @@
 
         <activity
             android:name=".activities.SettingsActivity"
+            android:configChanges="orientation"
             android:exported="true"
             android:label="@string/settings"
             android:parentActivityName=".activities.MainActivity">
@@ -74,11 +73,13 @@
 
         <activity
             android:name=".activities.GroupContactsActivity"
+            android:configChanges="orientation"
             android:exported="false"
             android:parentActivityName=".activities.MainActivity" />
 
         <activity
             android:name=".activities.ViewContactActivity"
+            android:configChanges="orientation"
             android:exported="true"
             android:label="@string/details"
             android:parentActivityName=".activities.MainActivity"
@@ -115,6 +116,7 @@
 
         <activity
             android:name=".activities.EditContactActivity"
+            android:configChanges="orientation"
             android:exported="true"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/TranslucentTheme">
@@ -157,16 +159,9 @@
 
         <activity
             android:name=".activities.InsertOrEditContactActivity"
+            android:configChanges="orientation"
             android:exported="true"
             android:label="@string/select_contact">
-
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:resource="@xml/searchable" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.INSERT_OR_EDIT" />
@@ -197,12 +192,14 @@
 
         <activity
             android:name="com.simplemobiletools.commons.activities.AboutActivity"
+            android:configChanges="orientation"
             android:exported="false"
             android:label="@string/about"
             android:parentActivityName=".activities.MainActivity" />
 
         <activity
             android:name="com.simplemobiletools.commons.activities.CustomizationActivity"
+            android:configChanges="orientation"
             android:exported="false"
             android:label="@string/customize_colors"
             android:parentActivityName=".activities.SettingsActivity" />

@@ -33,8 +33,6 @@
     <string name="add_to_group">添加到群組</string>
     <string name="create_group_under_account">在帳號下建立群組</string>
     <!-- Photo -->
-    <string name="take_photo">拍照</string>
-    <string name="choose_photo">選擇相片</string>
     <string name="remove_photo">移除相片</string>
     <string name="change_photo">變更照片</string>
     <!-- Settings -->
@@ -49,9 +47,6 @@
     <string name="show_only_contacts_with_numbers">只顯示含有電話話碼的聯絡人</string>
     <string name="show_private_contacts">Show private contacts to Simple Dialer, Simple SMS Messenger and Simple Calendar Pro</string>
     <string name="merge_duplicate_contacts">合併相同的聯絡資訊</string>
-    <!-- Events -->
-    <string name="birthday">生日</string>
-    <string name="anniversary">紀念日</string>
     <!-- Favorites -->
     <string name="no_favorites">你似乎還沒加入任何我的最愛聯絡人。</string>
     <string name="toggle_favorite">Toggle favorite</string>
@@ -93,52 +88,6 @@
     <!-- FAQ -->
     <string name="faq_1_title">我想要更改在通訊錄會看到哪些欄位。我能這麼做嗎?</string>
     <string name="faq_1_text">可以，你要做的是到[設定] -&gt; [管理顯示的聯絡人欄位]。在那裡，你可以選擇應該看到什麼欄位。其中有些甚至預設是關閉的，所以你可能會在那裡發現一些新的。</string>
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">簡易通訊錄 Pro - 輕鬆管理您的聯絡人</string>
-    <!-- Short description has to have less than 80 chars -->
-    <string name="app_short_description">優質的通訊錄管理 app，沒有廣告、支援群組與最愛</string>
-    <string name="app_long_description">
-        A lightweight app for managing your contacts loved by millions of people. The contacts can be stored on your device only, but also synchronized via Google, or other accounts.
-
-        You can use it for managing user emails and events too. It has the ability to sort/filter by multiple parameters, optionally display surname as the first name.
-
-        You can display your favorite contacts or groups on a separate list. Groups can be used for sending out batch emails or SMS, to save you some time, you can rename them easily.
-
-        It contains handy buttons for calling, or texting your contacts. All visible fields can be customized as you wish, you can easily hide the unused ones. The search function will search the given string at every visible contact field, to make you find your desired contact easily.
-
-        There is a lightweight dialpad at your service too, with smart contact suggestions.
-
-        It supports exporting/importing contacts in vCard format to .vcf files, for easy migrations or backing up your data.
-
-        With this modern and stable contacts manager you can protect your contacts by not sharing them with other apps, so you can keep your contacts private.
-
-        Like the contact source, you can also easily change the contact name, email, phone number, address, organization, groups and many other customizable fields. You can use it for storing contact events too, like birthdays, anniversaries, or any other custom ones.
-
-        This simple contact editor has many handy settings like showing phone numbers on the main screen, toggle contact thumbnail visibility, showing only contacts with phone numbers, showing a call confirmation dialog before initiating a call. It comes with a quick dialer that also makes use of letters.
-
-        To further improve the user experience, you can customize what happens at clicking on a contact. You can either initiate a call, go to the View Details screen, or edit the selected contact.
-
-        You can easily block phone numbers to avoid unwanted incoming calls.
-
-        To avoid showing potentially unwanted contacts, it has a powerful built in duplicate contact merger.
-
-        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
-
-        不包含廣告及非必要的權限，而且完全開放原始碼，並提供自訂顏色。
-
-        <b>Check out the full suite of Simple Tools here:</b>
-        https://www.simplemobiletools.com
-
-        <b>Standalone website of Simple Contacts Pro:</b>
-        https://www.simplemobiletools.com/contacts
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

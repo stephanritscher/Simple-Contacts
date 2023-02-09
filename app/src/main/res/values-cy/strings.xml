@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simple Contacts</string>
     <string name="app_launcher_name">Cysylltiadau</string>
@@ -14,16 +15,13 @@
     <string name="send_email_to_group">Anfon ebost at grŵp</string>
     <string name="fields_empty">At least 1 field has to be filled out</string>
     <string name="must_be_at_edit">Rhaid bod ar y sgrin golygu er mwyn addasu cyswllt</string>
-
     <!-- Placeholders -->
     <string name="no_contacts_with_emails">Ni chanfuwyd unrhyw gysylltiadau gydag ebost</string>
     <string name="no_contacts_with_phone_numbers">Ni chanfuwyd unrhyw gysylltiadau gyda rhifau ffôn</string>
-
     <string name="new_contact">Cyswllt newydd</string>
     <string name="edit_contact">Golygu\'r cyswllt</string>
     <string name="select_contact">Dewis cyswllt</string>
     <string name="nickname">Llys enw</string>
-
     <!-- Groups -->
     <string name="no_groups">Dim grwpiau</string>
     <string name="create_new_group">Creu grŵp newydd</string>
@@ -34,13 +32,9 @@
     <string name="create_group">Creu grŵp</string>
     <string name="add_to_group">Ychwanegu at grŵp</string>
     <string name="create_group_under_account">Creu grŵp dan gyfrif</string>
-
     <!-- Photo -->
-    <string name="take_photo">Tynnu llun</string>
-    <string name="choose_photo">Dewis llun</string>
     <string name="remove_photo">Cael gwared â\'r llun</string>
     <string name="change_photo">Change photo</string>
-
     <!-- Settings -->
     <string name="show_phone_numbers">Dangos rhifau ffôn ar y brif sgrin</string>
     <string name="show_contact_thumbnails">Dangos mân luniau cysylltiadau</string>
@@ -53,20 +47,13 @@
     <string name="show_only_contacts_with_numbers">Dangos dim ond cysylltiadau gyda rhifau ffôn</string>
     <string name="show_private_contacts">Show private contacts to Simple Dialer, Simple SMS Messenger and Simple Calendar Pro</string>
     <string name="merge_duplicate_contacts">Merge duplicate contacts</string>
-
-    <!-- Events -->
-    <string name="birthday">Pen-blwydd</string>
-    <string name="anniversary">Pen-blwydd achlysur</string>
-
     <!-- Favorites -->
     <string name="no_favorites">Ymddangosir nad wyt wedi ychwanegu unrhyw ffefrynnau eto.</string>
     <string name="toggle_favorite">Toggle favorite</string>
-
     <!-- Search -->
     <string name="search_contacts">Chwilio\'r cysylltiadau</string>
     <string name="search_favorites">Chwilio\'r ffefrynnau</string>
     <string name="search_groups">Search groups</string>
-
     <!-- Export / Import -->
     <string name="import_contacts">Mewnforio cysylltiadau</string>
     <string name="export_contacts">Allforio cysylltiadau</string>
@@ -76,11 +63,9 @@
     <string name="target_contact_source">Ffynhonnell y cyswllt targed</string>
     <string name="include_contact_sources">Cynnwys ffynonellau cysylltiadau</string>
     <string name="filename_without_vcf">Enw\'r ffeil (heb .vcf)</string>
-
     <!-- Dialpad -->
     <string name="dialpad">Pad deialu</string>
     <string name="add_number_to_contact">Ychwanegu rhif at gyswllt</string>
-
     <!-- Visible fields -->
     <string name="prefix">Rhagddodiad</string>
     <string name="suffix">Ôl-ddodiad</string>
@@ -94,66 +79,19 @@
     <string name="contact_source">Ffynhonnell gyswllt</string>
     <string name="instant_messaging">Negesu ar unwaith (IM)</string>
     <string name="ringtone">Ringtone</string>
-
     <!-- Confirmation dialog -->
     <string name="delete_from_all_sources">The contact will be removed from all contact sources.</string>
-
     <plurals name="delete_groups">
-        <item quantity="one">%d group</item>
+        <item quantity="zero">%d group</item>
+        <item quantity="one">%d groups</item>
+        <item quantity="two">%d groups</item>
+        <item quantity="few">%d groups</item>
+        <item quantity="many">%d groups</item>
         <item quantity="other">%d groups</item>
     </plurals>
-
     <!-- FAQ -->
     <string name="faq_1_title">Hoffwn newid pa feysydd sydd i\'w gweld ar gyfer cysylltiadau. Ydy hyn yn bosib?</string>
-    <string name="faq_1_text">Ydy. Y cwbl sy\'n rhaid gwneud ydy mynd i Gosodiadau -> Rheoli pa feysydd cysylltiadau i\'w dangos. Yna, gellir dewis pa feysydd sydd i\'w gweld. Bydd rhai wedi eu gosod i beidio ymddangos fel arfer, felly mae\'n bosib byddi\'n dod o hyd i rai newydd yno.</string>
-
-    <!-- Strings displayed only on Google Playstore. Optional, but good to have -->
-    <!-- App title has to have less than 50 characters. If you cannot squeeze it, just remove a part of it -->
-    <string name="app_title">Simple Contacts Pro - Manage your contacts easily</string>
-    <!-- Short description has to have less than 80 chars -->
-    <string name="app_short_description">Easy and quick contact management with no ads, handles groups and favorites too.</string>
-    <string name="app_long_description">
-        A lightweight app for managing your contacts loved by millions of people. The contacts can be stored on your device only, but also synchronized via Google, or other accounts.
-
-        You can use it for managing user emails and events too. It has the ability to sort/filter by multiple parameters, optionally display surname as the first name.
-
-        You can display your favorite contacts or groups on a separate list. Groups can be used for sending out batch emails or SMS, to save you some time, you can rename them easily.
-
-        It contains handy buttons for calling, or texting your contacts. All visible fields can be customized as you wish, you can easily hide the unused ones. The search function will search the given string at every visible contact field, to make you find your desired contact easily.
-
-        There is a lightweight dialpad at your service too, with smart contact suggestions.
-
-        It supports exporting/importing contacts in vCard format to .vcf files, for easy migrations or backing up your data.
-
-        With this modern and stable contacts manager you can protect your contacts by not sharing them with other apps, so you can keep your contacts private.
-
-        Like the contact source, you can also easily change the contact name, email, phone number, address, organization, groups and many other customizable fields. You can use it for storing contact events too, like birthdays, anniversaries, or any other custom ones.
-
-        This simple contact editor has many handy settings like showing phone numbers on the main screen, toggle contact thumbnail visibility, showing only contacts with phone numbers, showing a call confirmation dialog before initiating a call. It comes with a quick dialer that also makes use of letters.
-
-        To further improve the user experience, you can customize what happens at clicking on a contact. You can either initiate a call, go to the View Details screen, or edit the selected contact.
-
-        You can easily block phone numbers to avoid unwanted incoming calls.
-
-        To avoid showing potentially unwanted contacts, it has a powerful built in duplicate contact merger.
-
-        It comes with material design and dark theme by default, provides great user experience for easy usage. The lack of internet access gives you more privacy, security and stability than other apps.
-
-        Does dim hysbysebion na dim angen arno unrhyw ganiatâd diangen. Mae\'n gwbl cod agored ac mae modd addasu lliwiau\'r ap.
-
-        <b>Check out the full suite of Simple Tools here:</b>
-        https://www.simplemobiletools.com
-
-        <b>Standalone website of Simple Contacts Pro:</b>
-        https://www.simplemobiletools.com/contacts
-
-        <b>Facebook:</b>
-        https://www.facebook.com/simplemobiletools
-
-        <b>Reddit:</b>
-        https://www.reddit.com/r/SimpleMobileTools
-    </string>
-
+    <string name="faq_1_text">Ydy. Y cwbl sy\'n rhaid gwneud ydy mynd i Gosodiadau -&gt; Rheoli pa feysydd cysylltiadau i\'w dangos. Yna, gellir dewis pa feysydd sydd i\'w gweld. Bydd rhai wedi eu gosod i beidio ymddangos fel arfer, felly mae\'n bosib byddi\'n dod o hyd i rai newydd yno.</string>
     <!--
         Haven\'t found some strings? There\'s more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

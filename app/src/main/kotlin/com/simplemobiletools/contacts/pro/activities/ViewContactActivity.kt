@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.View
-import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.RelativeLayout
 import androidx.core.view.isVisible
@@ -63,10 +62,6 @@ class ViewContactActivity : ContactActivity() {
         showFields = config.showContactFields
         contact_wrapper.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         setupMenu()
-
-        if (isRPlus()) {
-            window.insetsController?.setSystemBarsAppearance(0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
-        }
     }
 
     override fun onResume() {
@@ -109,7 +104,9 @@ class ViewContactActivity : ContactActivity() {
             }
 
             findItem(R.id.edit).setOnMenuItemClickListener {
-                launchEditContact(contact!!)
+                if (contact != null) {
+                    launchEditContact(contact!!)
+                }
                 true
             }
 
@@ -232,8 +229,8 @@ class ViewContactActivity : ContactActivity() {
 
         val textColor = getProperTextColor()
         arrayOf(
-            contact_name_image, contact_numbers_image, contact_emails_image, contact_addresses_image, contact_events_image, contact_source_image,
-            contact_notes_image, contact_ringtone_image, contact_organization_image, contact_websites_image, contact_groups_image
+            contact_name_image, contact_numbers_image, contact_emails_image, contact_addresses_image, contact_ims_image, contact_events_image,
+            contact_source_image, contact_notes_image, contact_ringtone_image, contact_organization_image, contact_websites_image, contact_groups_image
         ).forEach {
             it.applyColorFilter(textColor)
         }
@@ -294,8 +291,10 @@ class ViewContactActivity : ContactActivity() {
     }
 
     private fun openWith() {
-        val uri = getContactPublicUri(contact!!)
-        launchViewContactIntent(uri)
+        if (contact != null) {
+            val uri = getContactPublicUri(contact!!)
+            launchViewContactIntent(uri)
+        }
     }
 
     private fun setupFavorite() {
@@ -859,7 +858,6 @@ class ViewContactActivity : ContactActivity() {
     private fun View.copyOnLongClick(value: String) {
         setOnLongClickListener {
             copyToClipboard(value)
-            toast(R.string.value_copied_to_clipboard)
             true
         }
     }

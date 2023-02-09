@@ -1,69 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settings_scrollview"
+    android:id="@+id/settings_coordinator"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/settings_holder"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/settings_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/color_primary"
+        app:title="@string/settings"
+        app:titleTextAppearance="@style/AppTheme.ActionBar.TitleTextStyle" />
 
-        <TextView
-            android:id="@+id/settings_color_customization_label"
-            style="@style/SettingsSectionLabelStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/color_customization" />
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/settings_nested_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/settings_color_customization_holder"
+            android:id="@+id/settings_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin"
-            android:background="@drawable/section_holder_stroke"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/settings_customize_colors_holder"
-                style="@style/SettingsHolderTextViewOneLinerStyle"
+            <TextView
+                android:id="@+id/settings_color_customization_section_label"
+                style="@style/SettingsSectionLabelStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ripple_all_corners">
+                android:text="@string/color_customization" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/settings_color_customization_holder"
+                style="@style/SettingsHolderTextViewOneLinerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyTextView
-                    android:id="@+id/settings_customize_colors_label"
+                    android:id="@+id/settings_color_customization_label"
                     style="@style/SettingsTextLabelStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/customize_colors" />
+                    android:text="@string/customize_colors"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </RelativeLayout>
-        </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/settings_general_settings_label"
-            style="@style/SettingsSectionLabelStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/general_settings" />
+            <include
+                android:id="@+id/settings_color_customization_divider"
+                layout="@layout/divider" />
 
-        <LinearLayout
-            android:id="@+id/settings_general_settings_holder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin"
-            android:background="@drawable/section_holder_stroke"
-            android:orientation="vertical">
+            <TextView
+                android:id="@+id/settings_general_settings_label"
+                style="@style/SettingsSectionLabelStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/general_settings" />
 
             <RelativeLayout
                 android:id="@+id/settings_use_english_holder"
                 style="@style/SettingsHolderCheckboxStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_top_corners">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyAppCompatCheckbox
                     android:id="@+id/settings_use_english"
@@ -75,11 +79,33 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/settings_language_holder"
+                style="@style/SettingsHolderTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/settings_language_label"
+                    style="@style/SettingsTextLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/language" />
+
+                <com.simplemobiletools.commons.views.MyTextView
+                    android:id="@+id/settings_language"
+                    style="@style/SettingsTextValueStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/settings_language_label"
+                    tools:text="English" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/settings_font_size_holder"
                 style="@style/SettingsHolderTextViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_background">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyTextView
                     android:id="@+id/settings_font_size_label"
@@ -102,8 +128,7 @@
                 android:id="@+id/settings_manage_contact_fields_holder"
                 style="@style/SettingsHolderTextViewOneLinerStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_background">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyTextView
                     android:id="@+id/settings_manage_contact_fields_label"
@@ -118,8 +143,7 @@
                 android:id="@+id/settings_merge_duplicate_contacts_holder"
                 style="@style/SettingsHolderCheckboxStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_background">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyAppCompatCheckbox
                     android:id="@+id/settings_merge_duplicate_contacts"
@@ -134,8 +158,7 @@
                 android:id="@+id/settings_show_call_confirmation_holder"
                 style="@style/SettingsHolderCheckboxStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_background">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyAppCompatCheckbox
                     android:id="@+id/settings_show_call_confirmation"
@@ -150,8 +173,7 @@
                 android:id="@+id/settings_show_private_contacts_holder"
                 style="@style/SettingsHolderCheckboxStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_bottom_corners">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyAppCompatCheckbox
                     android:id="@+id/settings_show_private_contacts"
@@ -162,29 +184,22 @@
 
             </RelativeLayout>
 
-        </LinearLayout>
+            <include
+                android:id="@+id/settings_general_settings_divider"
+                layout="@layout/divider" />
 
-        <TextView
-            android:id="@+id/settings_main_screen_label"
-            style="@style/SettingsSectionLabelStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_screen" />
-
-        <LinearLayout
-            android:id="@+id/settings_main_screen_holder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin"
-            android:background="@drawable/section_holder_stroke"
-            android:orientation="vertical">
+            <TextView
+                android:id="@+id/settings_main_screen_label"
+                style="@style/SettingsSectionLabelStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/main_screen" />
 
             <RelativeLayout
                 android:id="@+id/settings_manage_shown_tabs_holder"
                 style="@style/SettingsHolderTextViewOneLinerStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_top_corners">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyTextView
                     android:id="@+id/settings_manage_shown_tabs_label"
@@ -199,8 +214,7 @@
                 android:id="@+id/settings_default_tab_holder"
                 style="@style/SettingsHolderTextViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_background">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyTextView
                     android:id="@+id/settings_default_tab_label"
@@ -223,8 +237,7 @@
                 android:id="@+id/settings_on_contact_click_holder"
                 style="@style/SettingsHolderTextViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_background">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyTextView
                     android:id="@+id/settings_on_contact_click_label"
@@ -247,8 +260,7 @@
                 android:id="@+id/settings_show_dialpad_button_holder"
                 style="@style/SettingsHolderCheckboxStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_background">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyAppCompatCheckbox
                     android:id="@+id/settings_show_dialpad_button"
@@ -263,8 +275,7 @@
                 android:id="@+id/settings_show_only_contacts_with_numbers_holder"
                 style="@style/SettingsHolderCheckboxStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_bottom_corners">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyAppCompatCheckbox
                     android:id="@+id/settings_show_only_contacts_with_numbers"
@@ -274,29 +285,23 @@
                     android:text="@string/show_only_contacts_with_numbers" />
 
             </RelativeLayout>
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/settings_list_view_label"
-            style="@style/SettingsSectionLabelStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/list_view" />
+            <include
+                android:id="@+id/settings_main_screen_divider"
+                layout="@layout/divider" />
 
-        <LinearLayout
-            android:id="@+id/settings_list_view_holder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin"
-            android:background="@drawable/section_holder_stroke"
-            android:orientation="vertical">
+            <TextView
+                android:id="@+id/settings_list_view_label"
+                style="@style/SettingsSectionLabelStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/list_view" />
 
             <RelativeLayout
                 android:id="@+id/settings_show_contact_thumbnails_holder"
                 style="@style/SettingsHolderCheckboxStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_top_corners">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyAppCompatCheckbox
                     android:id="@+id/settings_show_contact_thumbnails"
@@ -311,8 +316,7 @@
                 android:id="@+id/settings_show_phone_numbers_holder"
                 style="@style/SettingsHolderCheckboxStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_background">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyAppCompatCheckbox
                     android:id="@+id/settings_show_phone_numbers"
@@ -327,8 +331,7 @@
                 android:id="@+id/settings_start_name_with_surname_holder"
                 style="@style/SettingsHolderCheckboxStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ripple_bottom_corners">
+                android:layout_height="wrap_content">
 
                 <com.simplemobiletools.commons.views.MyAppCompatCheckbox
                     android:id="@+id/settings_start_name_with_surname"
@@ -339,5 +342,5 @@
 
             </RelativeLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
