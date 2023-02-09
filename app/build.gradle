@@ -11,6 +11,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     compileSdkVersion 33
+    namespace "com.simplemobiletools.contacts.pro"
 
     defaultConfig {
         applicationId "de.ritscher.simplemobiletools.contacts.pro"
