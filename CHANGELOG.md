@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 6.22.1.3 *(2023-03-21)*
+----------------------------
+
+* Fix crash on VCARD import with empty address fields
+* Use structured address fields for VCARD export if available
+
 Version 6.22.1.2 *(2023-02-18)*
 ----------------------------
 
