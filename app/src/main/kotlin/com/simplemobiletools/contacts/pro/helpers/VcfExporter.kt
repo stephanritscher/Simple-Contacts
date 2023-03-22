@@ -12,9 +12,9 @@ import com.simplemobiletools.commons.extensions.getByteArray
 import com.simplemobiletools.commons.extensions.getDateTimeFromDateString
 import com.simplemobiletools.commons.extensions.showErrorToast
 import com.simplemobiletools.commons.extensions.toast
+import com.simplemobiletools.commons.models.contacts.Contact
 import com.simplemobiletools.contacts.pro.R
 import com.simplemobiletools.contacts.pro.helpers.VcfExporter.ExportResult.EXPORT_FAIL
-import com.simplemobiletools.contacts.pro.models.Contact
 import ezvcard.Ezvcard
 import ezvcard.VCard
 import ezvcard.VCardVersion
@@ -73,6 +73,9 @@ class VcfExporter {
                 contact.phoneNumbers.forEach {
                     val phoneNumber = Telephone(it.value)
                     phoneNumber.parameters.addType(getPhoneNumberTypeLabel(it.type, it.label))
+                    if (it.isPrimary) {
+                        phoneNumber.parameters.addType(getPreferredType(1))
+                    }
                     card.addTelephoneNumber(phoneNumber)
                 }
 
@@ -190,7 +193,7 @@ class VcfExporter {
         Phone.TYPE_MOBILE -> CELL
         Phone.TYPE_HOME -> HOME
         Phone.TYPE_WORK -> WORK
-        Phone.TYPE_MAIN -> PREF
+        Phone.TYPE_MAIN -> MAIN
         Phone.TYPE_FAX_WORK -> WORK_FAX
         Phone.TYPE_FAX_HOME -> HOME_FAX
         Phone.TYPE_PAGER -> PAGER
@@ -212,4 +215,6 @@ class VcfExporter {
         StructuredPostal.TYPE_OTHER -> OTHER
         else -> label
     }
+
+    private fun getPreferredType(value: Int) = "$PREF=$value"
 }

@@ -14,31 +14,28 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
+import com.simplemobiletools.commons.databases.ContactsDatabase
 import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.FilePickerDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.FAQItem
 import com.simplemobiletools.commons.models.Release
+import com.simplemobiletools.commons.models.contacts.Contact
 import com.simplemobiletools.contacts.pro.BuildConfig
 import com.simplemobiletools.contacts.pro.R
 import com.simplemobiletools.contacts.pro.adapters.ViewPagerAdapter
-import com.simplemobiletools.contacts.pro.databases.ContactsDatabase
 import com.simplemobiletools.contacts.pro.dialogs.ChangeSortingDialog
 import com.simplemobiletools.contacts.pro.dialogs.ExportContactsDialog
 import com.simplemobiletools.contacts.pro.dialogs.FilterContactSourcesDialog
 import com.simplemobiletools.contacts.pro.dialogs.ImportContactsDialog
 import com.simplemobiletools.contacts.pro.extensions.config
-import com.simplemobiletools.contacts.pro.extensions.getTempFile
 import com.simplemobiletools.contacts.pro.extensions.handleGenericContactClick
 import com.simplemobiletools.contacts.pro.fragments.FavoritesFragment
 import com.simplemobiletools.contacts.pro.fragments.MyViewPagerFragment
-import com.simplemobiletools.contacts.pro.helpers.ALL_TABS_MASK
-import com.simplemobiletools.contacts.pro.helpers.ContactsHelper
 import com.simplemobiletools.contacts.pro.helpers.VcfExporter
 import com.simplemobiletools.contacts.pro.helpers.tabsList
 import com.simplemobiletools.contacts.pro.interfaces.RefreshContactsListener
-import com.simplemobiletools.contacts.pro.models.Contact
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import kotlinx.android.synthetic.main.fragment_favorites.*
@@ -74,6 +71,11 @@ class MainActivity : SimpleActivity(), RefreshContactsListener {
         setupTabs()
         checkContactPermissions()
         checkWhatsNewDialog()
+
+        if (isPackageInstalled("com.simplemobiletools.contacts")) {
+            val dialogText = getString(R.string.upgraded_to_pro_contacts, getString(R.string.phone_storage_hidden))
+            ConfirmationDialog(this, dialogText, 0, R.string.ok, 0, false) {}
+        }
     }
 
     private fun checkContactPermissions() {
@@ -152,12 +154,6 @@ class MainActivity : SimpleActivity(), RefreshContactsListener {
 
         isFirstResume = false
         checkShortcuts()
-
-        if (!config.wasUpgradedFromFreeShown && isPackageInstalled("com.simplemobiletools.contacts")) {
-            val dialogText = getString(R.string.upgraded_to_pro_contacts, getString(R.string.phone_storage_hidden))
-            ConfirmationDialog(this, dialogText, 0, R.string.ok, 0, false) {}
-            config.wasUpgradedFromFreeShown = true
-        }
     }
 
     override fun onPause() {

@@ -22,12 +22,12 @@ import com.simplemobiletools.commons.dialogs.SelectAlarmSoundDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
 import com.simplemobiletools.commons.models.PhoneNumber
+import com.simplemobiletools.commons.models.contacts.*
 import com.simplemobiletools.contacts.pro.R
 import com.simplemobiletools.contacts.pro.dialogs.ChooseSocialDialog
 import com.simplemobiletools.contacts.pro.dialogs.ManageVisibleFieldsDialog
 import com.simplemobiletools.contacts.pro.extensions.*
 import com.simplemobiletools.contacts.pro.helpers.*
-import com.simplemobiletools.contacts.pro.models.*
 import kotlinx.android.synthetic.main.activity_view_contact.*
 import kotlinx.android.synthetic.main.item_view_address.view.*
 import kotlinx.android.synthetic.main.item_view_contact_source.view.*
@@ -351,7 +351,7 @@ class ViewContactActivity : ContactActivity() {
             val duplicateContactsDefaultNumbers = duplicateContacts.flatMap { it.phoneNumbers }.filter { it.isPrimary }
             val defaultNumbers = (contactDefaultsNumbers + duplicateContactsDefaultNumbers).toSet()
 
-            if (defaultNumbers.size > 1) {
+            if (defaultNumbers.size > 1 && defaultNumbers.distinctBy { it.normalizedNumber }.size > 1) {
                 phoneNumbers.forEach { it.isPrimary = false }
             } else if (defaultNumbers.size == 1) {
                 if (mergeDuplicate) {

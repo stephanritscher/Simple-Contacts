@@ -7,17 +7,19 @@ import android.provider.ContactsContract.CommonDataKinds.Im
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredPostal
 import android.widget.Toast
+import com.simplemobiletools.commons.extensions.groupsDB
 import com.simplemobiletools.commons.extensions.normalizePhoneNumber
 import com.simplemobiletools.commons.extensions.showErrorToast
-import com.simplemobiletools.commons.models.PhoneNumber
-import com.simplemobiletools.contacts.pro.activities.SimpleActivity
-import com.simplemobiletools.contacts.pro.extensions.getCachePhoto
+import com.simplemobiletools.commons.extensions.getCachePhoto
 import com.simplemobiletools.contacts.pro.extensions.getCachePhotoUri
-import com.simplemobiletools.contacts.pro.extensions.groupsDB
+import com.simplemobiletools.commons.helpers.ContactsHelper
+import com.simplemobiletools.commons.helpers.DEFAULT_MIMETYPE
+import com.simplemobiletools.commons.models.PhoneNumber
+import com.simplemobiletools.commons.models.contacts.*
+import com.simplemobiletools.contacts.pro.activities.SimpleActivity
 import com.simplemobiletools.contacts.pro.helpers.VcfImporter.ImportResult.IMPORT_FAIL
 import com.simplemobiletools.contacts.pro.helpers.VcfImporter.ImportResult.IMPORT_OK
 import com.simplemobiletools.contacts.pro.helpers.VcfImporter.ImportResult.IMPORT_PARTIAL
-import com.simplemobiletools.contacts.pro.models.*
 import ezvcard.Ezvcard
 import ezvcard.VCard
 import ezvcard.util.PartialDate
@@ -62,8 +64,9 @@ class VcfImporter(val activity: SimpleActivity) {
                     } else {
                         ""
                     }
+                    val preferred = getPreferredValue(it.types.lastOrNull()?.value) == 1
 
-                    phoneNumbers.add(PhoneNumber(number, type, label, number.normalizePhoneNumber()))
+                    phoneNumbers.add(PhoneNumber(number, type, label, number.normalizePhoneNumber(), preferred))
                 }
 
                 val emails = ArrayList<Email>()
@@ -272,7 +275,7 @@ class VcfImporter(val activity: SimpleActivity) {
                 Phone.TYPE_WORK
             }
         }
-        PREF, MAIN -> Phone.TYPE_MAIN
+        MAIN -> Phone.TYPE_MAIN
         WORK_FAX -> Phone.TYPE_FAX_WORK
         HOME_FAX -> Phone.TYPE_FAX_HOME
         FAX -> Phone.TYPE_FAX_WORK
@@ -312,5 +315,15 @@ class VcfImporter(val activity: SimpleActivity) {
         }
 
         return activity.getCachePhotoUri(file).toString()
+    }
+
+    private fun getPreferredValue(type: String?): Int {
+        if (type != null) {
+            if (type.startsWith("$PREF=".lowercase())) {
+                return type.split("=")[1].toInt()
+            }
+        }
+
+        return -1
     }
 }
