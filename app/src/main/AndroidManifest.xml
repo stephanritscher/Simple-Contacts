@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.simplemobiletools.contacts.pro"
+    package="de.ritscher.simplemobiletools.contacts.pro"
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -23,8 +23,8 @@
         android:required="false" />
 
     <queries>
-        <package android:name="com.simplemobiletools.contacts.debug" />
-        <package android:name="com.simplemobiletools.contacts" />
+        <package android:name="de.ritscher.simplemobiletools.contacts.debug" />
+        <package android:name="de.ritscher.simplemobiletools.contacts" />
     </queries>
 
     <application

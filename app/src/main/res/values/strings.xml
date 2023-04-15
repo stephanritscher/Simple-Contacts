@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Simple Contacts</string>
+    <string name="app_name">Simple Contacts Pro SE</string>
     <string name="app_launcher_name">Contacts</string>
     <string name="address">Address</string>
     <string name="inserting">Inserting…</string>
