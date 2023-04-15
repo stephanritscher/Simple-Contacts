@@ -1,1 +1,1 @@
-Contacts address book for managing recent contacts and vcf contact backups
+Extended version of Simple Contacts Pro that supports separate address fields
