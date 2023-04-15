@@ -1,11 +1,38 @@
 Changelog
 ==========
 
+Version 6.22.2.2 *(2023-04-17)*
+----------------------------
+
+* Fix changing of app icon color
+* Update about activity for this fork
+
+Version 6.22.2.1 *(2023-03-22)*
+----------------------------
+
+* Merge upstream changes
+
 Version 6.22.2 *(2023-03-07)*
 ----------------------------
 
- * Properly handle exporting and importing contact favorite numbers
- * Added some UI, translation and stability improvements
+* Properly handle exporting and importing contact favorite numbers
+* Added some UI, translation and stability improvements
+
+Version 6.22.1.3 *(2023-03-21)*
+----------------------------
+
+* Fix crash on VCARD import with empty address fields
+* Use structured address fields for VCARD export if available
+
+Version 6.22.1.2 *(2023-02-18)*
+----------------------------
+
+ * Remove fake app warning
+
+Version 6.22.1.1 *(2023-02-09)*
+----------------------------
+
+ * Merge upstream changes
 
 Version 6.22.1 *(2023-01-12)*
 ----------------------------
@@ -42,6 +69,17 @@ Version 6.20.0 *(2022-07-23)*
 
  * Adding some materialish redesign, especially in System default theme
  * Added some stability, translation and UX improvements
+
+Version 6.19.1.2 *(2023-02-01)*
+----------------------------
+
+ * Changed pictures, icons and descriptive texts
+
+Version 6.19.1.1 *(2022-11-10)*
+----------------------------
+
+ * Applying patch for structured address editing
+ * Changed app name
 
 Version 6.19.1 *(2022-06-26)*
 ----------------------------
