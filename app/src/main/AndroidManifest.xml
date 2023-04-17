@@ -216,7 +216,7 @@
 
         <provider
             android:name=".contentproviders.MyContactsContentProvider"
-            android:authorities="com.simplemobiletools.commons.contactsprovider"
+            android:authorities="de.ritscher.simplemobiletools.commons.contactsprovider"
             android:exported="true" />
 
         <activity-alias
