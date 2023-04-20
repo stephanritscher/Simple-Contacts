@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 6.22.3.1 *(2023-04-20)*
+----------------------------
+
+ * Fix viewing organization contacts
+ * Merge upstream changes
+
 Version 6.22.3 *(2023-04-16)*
 ----------------------------
 
