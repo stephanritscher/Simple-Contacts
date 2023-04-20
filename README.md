@@ -1,5 +1,5 @@
 # Simple Contacts Pro SE
-<img alt="Logo" src="fastlane/metadata/android/en-US/images/icon.png" width="120" />
+<img alt="Logo" src="graphics/icon.png" width="120" />
 
 This extended version (<a href="https://f-droid.org/packages/de.ritscher.simplemobiletools.contacts.pro/">F-Droid</a>, <a href="https://github.
 com/stephanritscher/Simple-Contacts">GitHub</a>) of Simple Contacts Pro (<a href="https://f-droid.org/en/packages/com.simplemobiletools.contacts.pro/">F-Droid</a>, <a href="https://github.com/SimpleMobileTools/Simple-Contacts">GitHub</a>) supports separate address fields for post office box, apartment/suite, street, city, zip code, state and country name.
@@ -14,3 +14,5 @@ When active, the combined multiline address field in contact editor will be repl
      height="80">](https://f-droid.org/packages/de.ritscher.simplemobiletools.contacts.pro/)
 
 Or get the latest APK from the [Releases Section](https://github.com/stephanritscher/Simple-Contacts/releases/latest).
+
+<img alt="Screenshots" src="graphics/featureGraphic.jpg" width="100%" />
