@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+Version 6.22.4.1 *(2023-07-27)*
+----------------------------
+
+ * Merge upstream changes
+
+Version 6.22.4 *(2023-06-09)*
+----------------------------
+
+ * Added autocomplete to names at creating new contacts
+ * Added some UI, translation and stability improvements
+
 Version 6.22.3.1 *(2023-04-20)*
 ----------------------------
 

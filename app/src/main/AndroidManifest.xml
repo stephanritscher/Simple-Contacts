@@ -33,6 +33,7 @@
         android:appCategory="social"
         android:icon="@mipmap/ic_launcher_green"
         android:label="@string/app_launcher_name"
+        android:localeConfig="@xml/locale_config"
         android:roundIcon="@mipmap/ic_launcher_green"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -119,7 +120,8 @@
             android:configChanges="orientation"
             android:exported="true"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/TranslucentTheme">
+            android:theme="@style/TranslucentTheme"
+            android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />

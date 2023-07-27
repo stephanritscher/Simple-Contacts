@@ -10,6 +10,7 @@ import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.ContactsContract.CommonDataKinds
 import android.provider.ContactsContract.CommonDataKinds.*
 import android.provider.MediaStore
@@ -22,6 +23,8 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doAfterTextChanged
 import com.simplemobiletools.commons.dialogs.ConfirmationAdvancedDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.dialogs.SelectAlarmSoundDialog
@@ -33,13 +36,20 @@ import com.simplemobiletools.commons.models.contacts.*
 import com.simplemobiletools.commons.models.contacts.Email
 import com.simplemobiletools.commons.models.contacts.Event
 import com.simplemobiletools.commons.models.contacts.Organization
+import com.simplemobiletools.commons.views.MyAutoCompleteTextView
 import com.simplemobiletools.contacts.pro.R
+import com.simplemobiletools.contacts.pro.adapters.AutoCompleteTextViewAdapter
 import com.simplemobiletools.contacts.pro.dialogs.CustomLabelDialog
 import com.simplemobiletools.contacts.pro.dialogs.ManageVisibleFieldsDialog
 import com.simplemobiletools.contacts.pro.dialogs.MyDatePickerDialog
 import com.simplemobiletools.contacts.pro.dialogs.SelectGroupsDialog
-import com.simplemobiletools.contacts.pro.extensions.*
-import com.simplemobiletools.contacts.pro.helpers.*
+import com.simplemobiletools.contacts.pro.extensions.config
+import com.simplemobiletools.contacts.pro.extensions.getCachePhotoUri
+import com.simplemobiletools.contacts.pro.extensions.showContactSourcePicker
+import com.simplemobiletools.contacts.pro.helpers.ADD_NEW_CONTACT_NUMBER
+import com.simplemobiletools.contacts.pro.helpers.IS_FROM_SIMPLE_CONTACTS
+import com.simplemobiletools.contacts.pro.helpers.KEY_EMAIL
+import com.simplemobiletools.contacts.pro.helpers.KEY_NAME
 import kotlinx.android.synthetic.main.activity_edit_contact.*
 import kotlinx.android.synthetic.main.item_edit_address.view.*
 import kotlinx.android.synthetic.main.item_edit_email.view.*
@@ -59,6 +69,8 @@ class EditContactActivity : ContactActivity() {
     private val TAKE_PHOTO = 1
     private val CHOOSE_PHOTO = 2
     private val REMOVE_PHOTO = 3
+
+    private val AUTO_COMPLETE_DELAY = 5000L
 
     private var mLastSavePromptTS = 0L
     private var wasActivityInitialized = false
@@ -85,6 +97,7 @@ class EditContactActivity : ContactActivity() {
         }
 
         contact_wrapper.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        setupInsets()
         setupMenu()
 
         val action = intent.action
@@ -256,6 +269,11 @@ class EditContactActivity : ContactActivity() {
             setOnLongClickListener { toast(R.string.toggle_favorite); true; }
         }
 
+        val nameTextViews = arrayOf(contact_first_name, contact_middle_name, contact_surname).filter { it.isVisible() }
+        if (nameTextViews.isNotEmpty()) {
+            setupAutoComplete(nameTextViews)
+        }
+
         updateTextColors(contact_scrollview)
         numberViewToColor?.setTextColor(properPrimaryColor)
         emailViewToColor?.setTextColor(properPrimaryColor)
@@ -280,6 +298,17 @@ class EditContactActivity : ContactActivity() {
             }
         } else {
             super.onBackPressed()
+        }
+    }
+
+    private fun setupInsets() {
+        contact_wrapper.setOnApplyWindowInsetsListener { _, insets ->
+            val windowInsets = WindowInsetsCompat.toWindowInsetsCompat(insets)
+            val imeInsets = windowInsets.getInsets(WindowInsetsCompat.Type.ime())
+            contact_scrollview.run {
+                setPadding(paddingLeft, paddingTop, paddingRight, imeInsets.bottom)
+            }
+            insets
         }
     }
 
@@ -1604,5 +1633,34 @@ class EditContactActivity : ContactActivity() {
         getString(R.string.icq) -> Im.PROTOCOL_ICQ
         getString(R.string.jabber) -> Im.PROTOCOL_JABBER
         else -> Im.PROTOCOL_CUSTOM
+    }
+
+    private fun setupAutoComplete(nameTextViews: List<MyAutoCompleteTextView>) {
+        ContactsHelper(this).getContacts { contacts ->
+            val adapter = AutoCompleteTextViewAdapter(this, contacts)
+            val handler = Handler(mainLooper)
+            nameTextViews.forEach { view ->
+                view.setAdapter(adapter)
+                view.setOnItemClickListener { _, _, position, _ ->
+                    val selectedContact = adapter.resultList[position]
+
+                    if (contact_first_name.isVisible()) {
+                        contact_first_name.setText(selectedContact.firstName)
+                    }
+                    if (contact_middle_name.isVisible()) {
+                        contact_middle_name.setText(selectedContact.middleName)
+                    }
+                    if (contact_surname.isVisible()) {
+                        contact_surname.setText(selectedContact.surname)
+                    }
+                }
+                view.doAfterTextChanged {
+                    handler.postDelayed({
+                        adapter.autoComplete = true
+                        adapter.filter.filter(it)
+                    }, AUTO_COMPLETE_DELAY)
+                }
+            }
+        }
     }
 }
