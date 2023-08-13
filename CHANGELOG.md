@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+Version 6.22.4.2 *(2023-08-13)*
+----------------------------
+
+ * Contact view: Only delete selected contact when merging duplicates is disabled
+
 Version 6.22.4.1 *(2023-07-27)*
 ----------------------------
 
