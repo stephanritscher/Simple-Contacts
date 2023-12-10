@@ -1,6 +1,26 @@
 Changelog
 ==========
 
+Version 6.22.7.1 *(2023-12-07)*
+----------------------------
+
+ * Merge upstream changes
+
+Version 6.22.7 *(2023-09-05)*
+----------------------------
+
+ * Added some UI, translation and stability improvements
+
+Version 6.22.6 *(2023-08-31)*
+----------------------------
+
+ * Added some UI, translation and stability improvements
+
+Version 6.22.5 *(2023-08-29)*
+----------------------------
+
+ * Added some UI, translation and stability improvements
+
 Version 6.22.4.2 *(2023-08-13)*
 ----------------------------
 

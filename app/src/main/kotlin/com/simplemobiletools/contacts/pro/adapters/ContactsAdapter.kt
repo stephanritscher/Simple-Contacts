@@ -13,9 +13,9 @@ import android.view.Menu
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -28,12 +28,11 @@ import com.simplemobiletools.commons.dialogs.ConfirmationDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
-import com.simplemobiletools.commons.helpers.ContactsHelper
 import com.simplemobiletools.commons.interfaces.ItemMoveCallback
 import com.simplemobiletools.commons.interfaces.ItemTouchHelperContract
 import com.simplemobiletools.commons.interfaces.StartReorderDragListener
 import com.simplemobiletools.commons.models.RadioItem
-import com.simplemobiletools.commons.models.contacts.Contact
+import com.simplemobiletools.commons.models.contacts.*
 import com.simplemobiletools.commons.views.MyRecyclerView
 import com.simplemobiletools.contacts.pro.R
 import com.simplemobiletools.contacts.pro.activities.SimpleActivity
@@ -43,17 +42,17 @@ import com.simplemobiletools.contacts.pro.extensions.*
 import com.simplemobiletools.contacts.pro.helpers.*
 import com.simplemobiletools.contacts.pro.interfaces.RefreshContactsListener
 import com.simplemobiletools.contacts.pro.interfaces.RemoveFromGroupListener
-import com.simplemobiletools.commons.models.contacts.*
 import java.util.*
 
 class ContactsAdapter(
     activity: SimpleActivity,
-    var contactItems: ArrayList<Contact>,
+    var contactItems: MutableList<Contact>,
+    recyclerView: MyRecyclerView,
+    highlightText: String = "",
+    var viewType: Int = VIEW_TYPE_LIST,
     private val refreshListener: RefreshContactsListener?,
     private val location: Int,
     private val removeListener: RemoveFromGroupListener?,
-    recyclerView: MyRecyclerView,
-    highlightText: String = "",
     private val enableDrag: Boolean = false,
     itemClick: (Any) -> Unit
 ) : MyRecyclerViewAdapter(activity, recyclerView, itemClick), RecyclerViewFastScroller.OnPopupTextUpdate, ItemTouchHelperContract {
@@ -69,7 +68,6 @@ class ContactsAdapter(
     var fontSize = activity.getTextSize()
     var onDragEndListener: (() -> Unit)? = null
 
-    private val itemLayout = if (showPhoneNumbers) R.layout.item_contact_with_number else R.layout.item_contact_without_number
     private var touchHelper: ItemTouchHelper? = null
     private var startReorderDragListener: StartReorderDragListener? = null
 
@@ -77,7 +75,7 @@ class ContactsAdapter(
         setupDragListener(true)
 
         if (enableDrag) {
-            touchHelper = ItemTouchHelper(ItemMoveCallback(this))
+            touchHelper = ItemTouchHelper(ItemMoveCallback(this, viewType == VIEW_TYPE_GRID))
             touchHelper!!.attachToRecyclerView(recyclerView)
 
             startReorderDragListener = object : StartReorderDragListener {
@@ -145,7 +143,22 @@ class ContactsAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = createViewHolder(itemLayout, parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layout = when (viewType) {
+            VIEW_TYPE_GRID -> {
+                if (showPhoneNumbers) com.simplemobiletools.commons.R.layout.item_contact_with_number_grid else com.simplemobiletools.commons.R.layout.item_contact_without_number_grid
+            }
+
+            else -> {
+                if (showPhoneNumbers) com.simplemobiletools.commons.R.layout.item_contact_with_number else com.simplemobiletools.commons.R.layout.item_contact_without_number
+            }
+        }
+        return createViewHolder(layout, parent)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return viewType
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val contact = contactItems[position]
@@ -160,9 +173,9 @@ class ContactsAdapter(
 
     private fun getItemWithKey(key: Int): Contact? = contactItems.firstOrNull { it.id == key }
 
-    fun updateItems(newItems: ArrayList<Contact>, highlightText: String = "") {
+    fun updateItems(newItems: List<Contact>, highlightText: String = "") {
         if (newItems.hashCode() != contactItems.hashCode()) {
-            contactItems = newItems.clone() as ArrayList<Contact>
+            contactItems = newItems.toMutableList()
             textToHighlight = highlightText
             notifyDataSetChanged()
             finishActMode()
@@ -182,10 +195,10 @@ class ContactsAdapter(
         val items = if (itemsCnt == 1) {
             "\"${getSelectedItems().first().getNameToDisplay()}\""
         } else {
-            resources.getQuantityString(R.plurals.delete_contacts, itemsCnt, itemsCnt)
+            resources.getQuantityString(com.simplemobiletools.commons.R.plurals.delete_contacts, itemsCnt, itemsCnt)
         }
 
-        val baseString = R.string.deletion_confirmation
+        val baseString = com.simplemobiletools.commons.R.string.deletion_confirmation
         val question = String.format(resources.getString(baseString), items)
 
         ConfirmationDialog(activity, question) {
@@ -333,7 +346,7 @@ class ContactsAdapter(
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .error(placeholderImage)
 
-                val size = activity.resources.getDimension(R.dimen.shortcut_size).toInt()
+                val size = activity.resources.getDimension(com.simplemobiletools.commons.R.dimen.shortcut_size).toInt()
                 val itemToLoad: Any? = if (contact.photoUri.isNotEmpty()) {
                     contact.photoUri
                 } else {
@@ -365,15 +378,16 @@ class ContactsAdapter(
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         if (!activity.isDestroyed && !activity.isFinishing) {
-            Glide.with(activity).clear(holder.itemView.findViewById<ImageView>(R.id.item_contact_image))
+            Glide.with(activity).clear(holder.itemView.findViewById<ImageView>(com.simplemobiletools.commons.R.id.item_contact_image))
         }
     }
 
     private fun setupView(view: View, contact: Contact, holder: ViewHolder) {
         view.apply {
-            findViewById<FrameLayout>(R.id.item_contact_frame)?.isSelected = selectedKeys.contains(contact.id)
+            setupViewBackground(activity)
+            findViewById<ConstraintLayout>(com.simplemobiletools.commons.R.id.item_contact_frame)?.isSelected = selectedKeys.contains(contact.id)
             val fullName = contact.getNameToDisplay()
-            findViewById<TextView>(R.id.item_contact_name).text = if (textToHighlight.isEmpty()) fullName else {
+            findViewById<TextView>(com.simplemobiletools.commons.R.id.item_contact_name).text = if (textToHighlight.isEmpty()) fullName else {
                 if (fullName.contains(textToHighlight, true)) {
                     fullName.highlightTextPart(textToHighlight, properPrimaryColor)
                 } else {
@@ -381,12 +395,12 @@ class ContactsAdapter(
                 }
             }
 
-            findViewById<TextView>(R.id.item_contact_name).apply {
+            findViewById<TextView>(com.simplemobiletools.commons.R.id.item_contact_name).apply {
                 setTextColor(textColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             }
 
-            if (findViewById<TextView>(R.id.item_contact_number) != null) {
+            if (findViewById<TextView>(com.simplemobiletools.commons.R.id.item_contact_number) != null) {
                 val phoneNumberToUse = if (textToHighlight.isEmpty()) {
                     contact.phoneNumbers.firstOrNull()
                 } else {
@@ -394,19 +408,19 @@ class ContactsAdapter(
                 }
 
                 val numberText = phoneNumberToUse?.value ?: ""
-                findViewById<TextView>(R.id.item_contact_number).apply {
+                findViewById<TextView>(com.simplemobiletools.commons.R.id.item_contact_number).apply {
                     text = if (textToHighlight.isEmpty()) numberText else numberText.highlightTextPart(textToHighlight, properPrimaryColor, false, true)
                     setTextColor(textColor)
                     setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                 }
             }
 
-            findViewById<TextView>(R.id.item_contact_image).beVisibleIf(showContactThumbnails)
+            findViewById<TextView>(com.simplemobiletools.commons.R.id.item_contact_image).beVisibleIf(showContactThumbnails)
 
             if (showContactThumbnails) {
                 val placeholderImage = BitmapDrawable(resources, SimpleContactsHelper(context).getContactLetterIcon(fullName))
                 if (contact.photoUri.isEmpty() && contact.photo == null) {
-                    findViewById<ImageView>(R.id.item_contact_image).setImageDrawable(placeholderImage)
+                    findViewById<ImageView>(com.simplemobiletools.commons.R.id.item_contact_image).setImageDrawable(placeholderImage)
                 } else {
                     val options = RequestOptions()
                         .signature(ObjectKey(contact.getSignatureKey()))
@@ -424,11 +438,11 @@ class ContactsAdapter(
                         .load(itemToLoad)
                         .apply(options)
                         .apply(RequestOptions.circleCropTransform())
-                        .into(findViewById(R.id.item_contact_image))
+                        .into(findViewById(com.simplemobiletools.commons.R.id.item_contact_image))
                 }
             }
 
-            val dragIcon = findViewById<ImageView>(R.id.drag_handle_icon)
+            val dragIcon = findViewById<ImageView>(com.simplemobiletools.commons.R.id.drag_handle_icon)
             if (enableDrag && textToHighlight.isEmpty()) {
                 dragIcon.apply {
                     beVisibleIf(selectedKeys.isNotEmpty())

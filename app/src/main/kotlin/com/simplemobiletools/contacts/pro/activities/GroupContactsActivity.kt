@@ -10,21 +10,23 @@ import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.ContactsHelper
 import com.simplemobiletools.commons.helpers.NavigationIcon
 import com.simplemobiletools.commons.helpers.ensureBackgroundThread
+import com.simplemobiletools.commons.models.contacts.Contact
+import com.simplemobiletools.commons.models.contacts.Group
 import com.simplemobiletools.contacts.pro.R
 import com.simplemobiletools.contacts.pro.adapters.ContactsAdapter
+import com.simplemobiletools.contacts.pro.databinding.ActivityGroupContactsBinding
 import com.simplemobiletools.contacts.pro.dialogs.SelectContactsDialog
-import com.simplemobiletools.contacts.pro.extensions.*
+import com.simplemobiletools.contacts.pro.extensions.handleGenericContactClick
 import com.simplemobiletools.contacts.pro.helpers.GROUP
 import com.simplemobiletools.contacts.pro.helpers.LOCATION_GROUP_CONTACTS
 import com.simplemobiletools.contacts.pro.interfaces.RefreshContactsListener
 import com.simplemobiletools.contacts.pro.interfaces.RemoveFromGroupListener
-import com.simplemobiletools.commons.models.contacts.*
-import kotlinx.android.synthetic.main.activity_group_contacts.*
 
 class GroupContactsActivity : SimpleActivity(), RemoveFromGroupListener, RefreshContactsListener {
     private var allContacts = ArrayList<Contact>()
     private var groupContacts = ArrayList<Contact>()
     private var wasInit = false
+    private val binding by viewBinding(ActivityGroupContactsBinding::inflate)
     lateinit var group: Group
 
     protected val INTENT_SELECT_RINGTONE = 600
@@ -34,42 +36,42 @@ class GroupContactsActivity : SimpleActivity(), RemoveFromGroupListener, Refresh
     override fun onCreate(savedInstanceState: Bundle?) {
         isMaterialActivity = true
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_group_contacts)
-        updateTextColors(group_contacts_coordinator)
+        setContentView(binding.root)
+        updateTextColors(binding.groupContactsCoordinator)
         setupOptionsMenu()
 
-        updateMaterialActivityViews(group_contacts_coordinator, group_contacts_list, useTransparentNavigation = true, useTopSearchMenu = false)
-        setupMaterialScrollListener(group_contacts_list, group_contacts_toolbar)
+        updateMaterialActivityViews(binding.groupContactsCoordinator, binding.groupContactsList, useTransparentNavigation = true, useTopSearchMenu = false)
+        setupMaterialScrollListener(binding.groupContactsList, binding.groupContactsToolbar)
 
         group = intent.extras?.getSerializable(GROUP) as Group
-        group_contacts_toolbar.title = group.title
+        binding.groupContactsToolbar.title = group.title
 
-        group_contacts_fab.setOnClickListener {
+        binding.groupContactsFab.setOnClickListener {
             if (wasInit) {
                 fabClicked()
             }
         }
 
-        group_contacts_placeholder_2.setOnClickListener {
+        binding.groupContactsPlaceholder2.setOnClickListener {
             fabClicked()
         }
 
         val properPrimaryColor = getProperPrimaryColor()
-        group_contacts_fastscroller?.updateColors(properPrimaryColor)
-        group_contacts_placeholder_2.underlineText()
-        group_contacts_placeholder_2.setTextColor(properPrimaryColor)
+        binding.groupContactsFastscroller?.updateColors(properPrimaryColor)
+        binding.groupContactsPlaceholder2.underlineText()
+        binding.groupContactsPlaceholder2.setTextColor(properPrimaryColor)
     }
 
     override fun onResume() {
         super.onResume()
         refreshContacts()
-        setupToolbar(group_contacts_toolbar, NavigationIcon.Arrow)
-        (group_contacts_fab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin =
-            navigationBarHeight + resources.getDimension(R.dimen.activity_margin).toInt()
+        setupToolbar(binding.groupContactsToolbar, NavigationIcon.Arrow)
+        (binding.groupContactsFab.layoutParams as CoordinatorLayout.LayoutParams).bottomMargin =
+            navigationBarHeight + resources.getDimension(com.simplemobiletools.commons.R.dimen.activity_margin).toInt()
     }
 
     private fun setupOptionsMenu() {
-        group_contacts_toolbar.setOnMenuItemClickListener { menuItem ->
+        binding.groupContactsToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.send_sms_to_group -> sendSMSToGroup()
                 R.id.send_email_to_group -> sendEmailToGroup()
@@ -111,16 +113,16 @@ class GroupContactsActivity : SimpleActivity(), RemoveFromGroupListener, Refresh
             allContacts = it
 
             groupContacts = it.filter { it.groups.map { it.id }.contains(group.id) } as ArrayList<Contact>
-            group_contacts_placeholder_2.beVisibleIf(groupContacts.isEmpty())
-            group_contacts_placeholder.beVisibleIf(groupContacts.isEmpty())
-            group_contacts_fastscroller.beVisibleIf(groupContacts.isNotEmpty())
+            binding.groupContactsPlaceholder2.beVisibleIf(groupContacts.isEmpty())
+            binding.groupContactsPlaceholder.beVisibleIf(groupContacts.isEmpty())
+            binding.groupContactsFastscroller.beVisibleIf(groupContacts.isNotEmpty())
             updateContacts(groupContacts)
         }
     }
 
     private fun sendSMSToGroup() {
         if (groupContacts.isEmpty()) {
-            toast(R.string.no_contacts_found)
+            toast(com.simplemobiletools.commons.R.string.no_contacts_found)
         } else {
             sendSMSToContacts(groupContacts)
         }
@@ -128,7 +130,7 @@ class GroupContactsActivity : SimpleActivity(), RemoveFromGroupListener, Refresh
 
     private fun sendEmailToGroup() {
         if (groupContacts.isEmpty()) {
-            toast(R.string.no_contacts_found)
+            toast(com.simplemobiletools.commons.R.string.no_contacts_found)
         } else {
             sendEmailToContacts(groupContacts)
         }
@@ -144,16 +146,23 @@ class GroupContactsActivity : SimpleActivity(), RemoveFromGroupListener, Refresh
     }
 
     private fun updateContacts(contacts: ArrayList<Contact>) {
-        val currAdapter = group_contacts_list.adapter
+        val currAdapter = binding.groupContactsList.adapter
         if (currAdapter == null) {
-            ContactsAdapter(this, contacts, this, LOCATION_GROUP_CONTACTS, this, group_contacts_list) {
+            ContactsAdapter(
+                this,
+                contactItems = contacts,
+                recyclerView = binding.groupContactsList,
+                location = LOCATION_GROUP_CONTACTS,
+                removeListener = this,
+                refreshListener = this
+            ) {
                 contactClicked(it as Contact)
             }.apply {
-                group_contacts_list.adapter = this
+                binding.groupContactsList.adapter = this
             }
 
             if (areSystemAnimationsEnabled) {
-                group_contacts_list.scheduleLayoutAnimation()
+                binding.groupContactsList.scheduleLayoutAnimation()
             }
         } else {
             (currAdapter as ContactsAdapter).updateItems(contacts)

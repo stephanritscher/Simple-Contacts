@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
-import com.simplemobiletools.commons.dialogs.CallConfirmationDialog
 import com.simplemobiletools.commons.dialogs.RadioGroupDialog
 import com.simplemobiletools.commons.extensions.*
 import com.simplemobiletools.commons.helpers.*
@@ -17,6 +16,7 @@ import com.simplemobiletools.contacts.pro.activities.SimpleActivity
 import com.simplemobiletools.contacts.pro.activities.ViewContactActivity
 import com.simplemobiletools.contacts.pro.helpers.DEFAULT_FILE_NAME
 import com.simplemobiletools.contacts.pro.helpers.VcfExporter
+import ezvcard.VCardVersion
 
 fun SimpleActivity.startCallIntent(recipient: String) {
     handlePermission(PERMISSION_CALL_PHONE) {
@@ -24,37 +24,6 @@ fun SimpleActivity.startCallIntent(recipient: String) {
         Intent(action).apply {
             data = Uri.fromParts("tel", recipient, null)
             launchActivityIntent(this)
-        }
-    }
-}
-
-fun SimpleActivity.tryStartCall(contact: Contact) {
-    if (config.showCallConfirmation) {
-        CallConfirmationDialog(this, contact.getNameToDisplay()) {
-            startCall(contact)
-        }
-    } else {
-        startCall(contact)
-    }
-}
-
-fun SimpleActivity.startCall(contact: Contact) {
-    val numbers = contact.phoneNumbers
-    if (numbers.size == 1) {
-        startCallIntent(numbers.first().value)
-    } else if (numbers.size > 1) {
-        val primaryNumber = contact.phoneNumbers.find { it.isPrimary }
-        if (primaryNumber != null) {
-            startCallIntent(primaryNumber.value)
-        } else {
-            val items = ArrayList<RadioItem>()
-            numbers.forEachIndexed { index, phoneNumber ->
-                items.add(RadioItem(index, "${phoneNumber.value} (${getPhoneNumberTypeText(phoneNumber.type, phoneNumber.label)})", phoneNumber.value))
-            }
-
-            RadioGroupDialog(this, items) {
-                startCallIntent(it as String)
-            }
         }
     }
 }
@@ -90,12 +59,14 @@ fun BaseSimpleActivity.shareContacts(contacts: ArrayList<Contact>) {
 
     val file = getTempFile(filename)
     if (file == null) {
-        toast(R.string.unknown_error_occurred)
+        toast(com.simplemobiletools.commons.R.string.unknown_error_occurred)
         return
     }
 
     getFileOutputStream(file.toFileDirItem(this), true) {
-        VcfExporter().exportContacts(this, it, contacts, false) {
+
+        // whatsApp does not support vCard version 4.0 yet
+        VcfExporter().exportContacts(this, it, contacts, false, version = VCardVersion.V3_0) {
             if (it == VcfExporter.ExportResult.EXPORT_OK) {
                 sharePathIntent(file.absolutePath, BuildConfig.APPLICATION_ID)
             } else {
@@ -116,9 +87,9 @@ fun SimpleActivity.handleGenericContactClick(contact: Contact) {
 fun SimpleActivity.callContact(contact: Contact) {
     hideKeyboard()
     if (contact.phoneNumbers.isNotEmpty()) {
-        tryStartCall(contact)
+        tryInitiateCall(contact) { startCallIntent(it) }
     } else {
-        toast(R.string.no_phone_number_found)
+        toast(com.simplemobiletools.commons.R.string.no_phone_number_found)
     }
 }
 
