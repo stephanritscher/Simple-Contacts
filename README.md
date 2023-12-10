@@ -9,6 +9,8 @@ The extension makes the app compliant with other applications (e. g. Thunderbird
 To activate the new feature, go to settings and select "Structured Addresses (edit mode)" in Manage shown contact fields dialog.
 When active, the combined multiline address field in contact editor will be replaced by a set of individual fields for address components.
 
+Since SimpleMobileTools has been <a href="https://github.com/SimpleMobileTools/General-Discussion/issues/241">sold</a>, it won't be continued as open source project. However a fork named <a href="https://github.com/FossifyOrg">FossifyOrg</a> has been announced.
+
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/de.ritscher.simplemobiletools.contacts.pro/)
