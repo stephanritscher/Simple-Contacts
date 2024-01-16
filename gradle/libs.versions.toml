@@ -27,7 +27,7 @@ app-build-kotlinJVMTarget = "17"
 app-namespace = "com.simplemobiletools.contacts.pro"
 app-version-appId = "de.ritscher.simplemobiletools.contacts.pro"
 app-version-versionCode = "109"
-app-version-versionName = "6.22.7"
+app-version-versionName = "6.22.7.1"
 [libraries]
 #AndroidX
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swiperefreshlayout" }
