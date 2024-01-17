@@ -50,7 +50,7 @@ import com.simplemobiletools.contacts.pro.helpers.ADD_NEW_CONTACT_NUMBER
 import com.simplemobiletools.contacts.pro.helpers.IS_FROM_SIMPLE_CONTACTS
 import com.simplemobiletools.contacts.pro.helpers.KEY_EMAIL
 import com.simplemobiletools.contacts.pro.helpers.KEY_NAME
-import java.util.*
+import java.util.LinkedList
 
 class EditContactActivity : ContactActivity() {
     companion object {
@@ -1427,13 +1427,13 @@ class EditContactActivity : ContactActivity() {
 
     private fun addNewAddressField() {
         if (config.showContactFields and SHOW_STRUCTURED_ADDRESSES_FIELD != 0) {
-            val addressHolder = ItemEditStructuredAddressBinding.inflate(layoutInflater, binding.contactAddressesHolder, false)
-            updateTextColors(addressHolder.root)
-            setupAddressTypePicker(addressHolder.contactStructuredAddressType, DEFAULT_ADDRESS_TYPE, "")
-            binding.contactAddressesHolder.addView(addressHolder.root)
+            val structutedAddressHolder = ItemEditStructuredAddressBinding.inflate(layoutInflater, binding.contactAddressesHolder, false)
+            updateTextColors(structutedAddressHolder.root)
+            setupAddressTypePicker(structutedAddressHolder.contactStructuredAddressType, DEFAULT_ADDRESS_TYPE, "")
+            binding.contactAddressesHolder.addView(structutedAddressHolder.root)
             binding.contactAddressesHolder.onGlobalLayout {
-                addressHolder.contactStreet.requestFocus()
-                showKeyboard(addressHolder.contactStreet)
+                structutedAddressHolder.contactStreet.requestFocus()
+                showKeyboard(structutedAddressHolder.contactStreet)
             }
         } else {
             val addressHolder = ItemEditAddressBinding.inflate(layoutInflater, binding.contactAddressesHolder, false)
