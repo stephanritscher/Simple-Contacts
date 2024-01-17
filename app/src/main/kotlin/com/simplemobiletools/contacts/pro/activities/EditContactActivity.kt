@@ -851,10 +851,7 @@ class EditContactActivity : ContactActivity() {
         }
 
         if (contact!!.addresses.isEmpty()) {
-            val addressHolder = ItemEditAddressBinding.bind(binding.contactAddressesHolder.getChildAt(0))
-            addressHolder.contactAddressType.apply {
-                setupAddressTypePicker(this, DEFAULT_ADDRESS_TYPE, "")
-            }
+            addNewAddressField()
         }
 
         if (contact!!.IMs.isEmpty()) {
