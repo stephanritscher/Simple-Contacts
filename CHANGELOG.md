@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+Version 6.22.7.2 *(2024-01-17)*
+----------------------------
+
+ * Fix initialization of empty address edit controls
+ * Align layout of structured address edit controls
+
 Version 6.22.7.1 *(2023-12-07)*
 ----------------------------
 
