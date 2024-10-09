@@ -14,9 +14,9 @@ indicatorfastscroll = "4524cd0b61"
 #Room
 room = "2.6.0-alpha02"
 #Simple tools
-simple-commons = "5c45c3707f"
+simple-commons = "ece4eb8817"
 #Gradle
-gradlePlugins-agp = "8.1.0"
+gradlePlugins-agp = "8.6.0"
 #build
 app-build-compileSDKVersion = "34"
 app-build-targetSDK = "34"
